@@ -1,6 +1,7 @@
 ﻿using Model.InternalLogic;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,8 +36,15 @@ namespace WpfApp1
 
         private void RulesLoadButton_Click(object sender, RoutedEventArgs e)
         {
-            // из файла
-            MessageBox.Show("ТУТ ТЕКСТ ПРАВИЛ НАШЕЙ ИГРЫ");
+            using(StreamReader sr = new StreamReader("Rules.txt"))
+            {
+                string[] lines = sr.ReadToEnd().Split(new[] {"\r\n","\n"}, StringSplitOptions.None);
+                for(int i =0; i < lines.Count; i++)
+                {
+                    MessageBox.Show(lines[i]);
+                }
+            }
+            
         }
 
         private void RatingLoadButton_Click(object sender, RoutedEventArgs e)
