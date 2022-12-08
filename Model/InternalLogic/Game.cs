@@ -3,6 +3,7 @@ using Modlel.Cards;
 using System;
 using System.Collections.Generic;
 using System.Runtime.ExceptionServices;
+using System.Runtime.InteropServices;
 using System.Web;
 
 namespace Model.InternalLogic
@@ -75,12 +76,12 @@ namespace Model.InternalLogic
             string MessageLog = "";
             // либо сделать через возврат логов либо через подписку
             List<ICard> playerCards = cards;
-            List<ICard> botCards = new List<ICard>();
+            Bot bot = new Bot();
             foreach ( var player in players)
             {
                 if (typeof(Bot).IsInstanceOfType(player))
                     {
-
+                     bot = (Bot)player;
                     }
             }
             List<ICard> botCards = bot.PutCardFromHandOnTheTable();
@@ -90,10 +91,10 @@ namespace Model.InternalLogic
 
             // отрабатывает логика с заклинаниями
             if (playerCards.Count == 2)
-                ICard NewCardCreatureP = UseSpell(playerCards);
+             //   ICard NewCardCreatureP = UseSpell(playerCards);
 
             if (botCards.Count == 2)
-                ICard NewCardCreatureB = UseSpell(botCards);
+               // ICard NewCardCreatureB = UseSpell(botCards);
 
             // отрабатывает логика с начислением очков и отниманием здоровья
 
@@ -104,8 +105,44 @@ namespace Model.InternalLogic
             if (CounterOfRounds == 12 /* или кто-то умер...*/)
                 throw new Exception("Игра закончена");
 
-            return // возвращаем большое сообщение что произошло
+            return null; // возвращаем большое сообщение что произошло
         }
 
+        public List<ICard> PlayerCardsInHand()
+        {
+            foreach (var player in players)
+                if (typeof(Player).IsInstanceOfType(player))
+                    return player.CardsInHands;
+            return null;
+        }
+
+        public List<Player> GetListOfPlayers()
+        {
+            return dm.AllPlayers;
+        }
+
+        public int GetHealth(string type)
+        {
+            foreach ( var player in players)
+            {
+                if (typeof(Player).IsInstanceOfType(player) && (type == "Player"))
+                    return player.GetHealth();
+                if (typeof(Bot).IsInstanceOfType(player) && (type == "Bot"))
+                    return player.GetHealth();
+            }
+            return 0;
+        }
+
+        public int GetPointsPerGame(string type)
+        {
+            foreach (var player in players)
+            {
+                if (typeof(Player).IsInstanceOfType(player) && (type == "Player"))
+                    return player.GetPointsPerGame();
+                if (typeof(Bot).IsInstanceOfType(player) && (type == "Bot"))
+                    return player.GetPointsPerGame();
+            }
+            return 0;
+        }
     }
 }

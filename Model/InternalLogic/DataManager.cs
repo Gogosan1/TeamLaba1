@@ -4,11 +4,14 @@ using System.Text.Json;
 using Model.Players_logic;
 using Modlel.Cards;
 using System.IO;
+using LabaTeam1.Model.InternalLogic;
 
 namespace Model.InternalLogic
 {
-    internal class DataManager
+    internal class DataManager : IGettingListOfPlayers
     {
+        // производить десериалиацию в конструкторе
+
         //TODO: serealisation/desearelesation
         public List<ICard> AllCards { get; init; } = new List<ICard>(); //сюда будем десериализовать список карт из файла
         public List<Player> AllPlayers { get; init; } = new List<Player>();//сюда будем десериализовать список игроков из файла

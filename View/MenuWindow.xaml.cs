@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model.InternalLogic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -48,5 +49,6 @@ namespace WpfApp1
         {
            Environment.Exit(0);
         }
+        private Game game;
     }
 }

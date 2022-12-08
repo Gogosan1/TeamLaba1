@@ -12,17 +12,19 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp1.Controller;
+using WpfApp1;
 
-namespace WpfApp1.View
+namespace LabaTeam1.View
 {
     /// <summary>
-    /// Логика взаимодействия для Window2.xaml
+    /// Логика взаимодействия для Window1.xaml
     /// </summary>
-    public partial class StartWindow : Window
+    public partial class Window1 : Window
     {
-        public StartWindow()
+        public Window1()
         {
-            var controller = new StartWindowController();
+            //var controller = new StartWindowController();
+
             InitializeComponent();
         }
 

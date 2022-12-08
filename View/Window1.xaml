@@ -1,0 +1,15 @@
+﻿<Window x:Class="LabaTeam1.View.Window1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LabaTeam1.View"
+        mc:Ignorable="d"
+        Title="Window1" Height="450" Width="800">
+    <Grid>
+        <Button x:Name="LetsGoButton" Content="Button" HorizontalAlignment="Left" Margin="332,278,0,0" VerticalAlignment="Top" Width="100" Click="LetsGoButton_Click"/>
+        <TextBox x:Name="PlayerNickTextBox" HorizontalAlignment="Left" Margin="334,203,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Label" HorizontalAlignment="Left" Margin="303,67,0,0" VerticalAlignment="Top"/>
+
+    </Grid>
+</Window>

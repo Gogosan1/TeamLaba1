@@ -11,17 +11,17 @@
             <ColumnDefinition Width="22*"/>
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
-        <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Margin="-1,21,1,274" Grid.ColumnSpan="2" SelectionChanged="DataGrid_SelectionChanged" IsSynchronizedWithCurrentItem="True"/>
         <Label Content="Ваш ход, выберите карту" HorizontalAlignment="Left" Margin="2,-4,0,0" VerticalAlignment="Top"/>
-        <Label Content="Ваше здоровье: 0" HorizontalAlignment="Left" Margin="16,191,0,0" VerticalAlignment="Top"/>
-        <Label Content="Здоровье соперника: 0" HorizontalAlignment="Left" Margin="193,190,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="PlayersHealthLabel" Content="Ваше здоровье: 0" HorizontalAlignment="Left" Margin="16,191,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="BotHealthLabel" Content="Здоровье соперника: 0" HorizontalAlignment="Left" Margin="193,190,0,0" VerticalAlignment="Top"/>
         <Button x:Name="MakeAMoveButton" Content="Выполнить ход" HorizontalAlignment="Left" Margin="51,279,0,0" VerticalAlignment="Top" Click="MakeAMoveButton_Click"/>
-        <TextBlock 
+        <TextBlock x:Name="GameLogsTextBlock" 
                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
                  ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" Margin="366,179,0,0" TextWrapping="Wrap" Text="Тут пишутся логи( ходы во время игры)" VerticalAlignment="Top" Height="220" Width="414"/>
         <Button x:Name="EndGameButton" Content="Закончить игру" HorizontalAlignment="Left" Margin="159,279,0,0" VerticalAlignment="Top"/>
-        <Label Content="Ввши очки: 0" HorizontalAlignment="Left" Margin="15,227,0,0" VerticalAlignment="Top"/>
-        <Label Content="Очки соперника: 0" HorizontalAlignment="Left" Margin="192,226,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="PlayersGamesRatingLabel" Content="Ввши очки: 0" HorizontalAlignment="Left" Margin="15,227,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="BotsGamesRatingLabel" Content="Очки соперника: 0" HorizontalAlignment="Left" Margin="192,226,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="ListOfCardsComboBox" HorizontalAlignment="Left" Margin="43,100,0,0" VerticalAlignment="Top" Width="311"/>
 
     </Grid>
 </Window>

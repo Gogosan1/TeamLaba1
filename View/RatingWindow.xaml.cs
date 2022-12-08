@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LabaTeam1.Model.InternalLogic;
+using Model.InternalLogic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,7 +23,15 @@ namespace WpfApp1.View
     {
         public RatingWindow()
         {
+            IGettingListOfPlayers players = new DataManager();
+           // DataManager ga = new DataManager();
+            PlayersDataGrid.ItemsSource = players.AllPlayers;
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
