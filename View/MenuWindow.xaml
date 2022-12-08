@@ -1,0 +1,20 @@
+﻿<Window x:Class="WpfApp1.MenuWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="376" Width="573">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="ExitButton" Content="Выход" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="263,216,0,0" VerticalAlignment="Top" Click="ExitButton_Click"/>
+        <Button x:Name="RulesLoadButton" Content="Правила игры" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="261,143,0,0" VerticalAlignment="Top" Click="RulesLoadButton_Click"/>
+        <Button x:Name="RatingLoadButton" Content="Рейтинг" HorizontalAlignment="Center" Margin="0,180,0,0" VerticalAlignment="Top" Grid.Column="1" Click="RatingLoadButton_Click"/>
+        <Label Content="Коллекционная карточная игра" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="184,79,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="PlayButton" Content="Играть" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="259,117,0,0" VerticalAlignment="Top" Click="PlayButton_Click"/>
+    </Grid>
+</Window>
