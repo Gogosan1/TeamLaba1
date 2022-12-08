@@ -20,6 +20,9 @@ namespace Model.Players_logic
             health = Constants.DEFAULT_HEALTH; 
         }
 
+        public Bot()
+        {
+        }
 
         public void AddPointsPerGame()
         {

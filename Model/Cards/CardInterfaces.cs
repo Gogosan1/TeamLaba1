@@ -8,7 +8,7 @@ namespace Modlel.Cards
         int Power { get; set; }
     }
 
-    public interface ICreature: ICard
+    public interface ICreature
     {
         int Health { get; set; }
     }

@@ -2,7 +2,7 @@
 
 namespace Modlel.Cards
 {
-    public class Creature : ICreature
+    public class Creature : ICreature, ICard
     {
         public string Name { get; init; }
         public int Health { get; set; }

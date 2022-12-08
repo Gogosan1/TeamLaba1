@@ -1,9 +1,7 @@
 ﻿using Model.InternalLogic;
-using System;
+using Modlel.Cards;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace WpfApp1.Controller
 {
@@ -14,11 +12,16 @@ namespace WpfApp1.Controller
             game = new Game();
         }
 
-        public string MakeAMove(ICard card)
-        {
+        public int GetHealth() =>
 
+        public string MakeAMove(List<ICard> cards)
+        {
+            return game.CompleteRound(cards);
         }
-        
+
+        public int GetGamesRating() =>
+           
+
         private Game game;
     }
 }
