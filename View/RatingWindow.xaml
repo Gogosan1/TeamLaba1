@@ -7,7 +7,10 @@
         mc:Ignorable="d"
         Title="RatingWindow" Height="450" Width="800">
     <Grid>
-        <DataGrid x:Name="PlayersDataGrid" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,0,0,249"/>
+        <DataGrid x:Name="PlayersDataGrid" Margin="0,0,0,249" IsReadOnly="True" ColumnWidth="*" VerticalAlignment="Top"
+                          CanUserResizeColumns="False" CanUserAddRows="False" CanUserDeleteRows="False"
+                          CanUserReorderColumns="False" BorderThickness="0">
+                    </DataGrid>
         <Button Content="Button" HorizontalAlignment="Left" Margin="188,301,0,0" VerticalAlignment="Top" Click="Button_Click"/>
 
     </Grid>

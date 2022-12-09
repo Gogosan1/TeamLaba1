@@ -2,6 +2,7 @@
 using Modlel.Cards;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
 using System.Web;
@@ -15,7 +16,8 @@ namespace Model.InternalLogic
         private int CounterOfRounds;
 
         public Game()
-        { 
+        {
+            dm = new DataManager();
             players = new List<IPlayer>();
             CounterOfRounds = 0;
         }
@@ -26,7 +28,7 @@ namespace Model.InternalLogic
 
             if (!IsPlayerExist(name))
             {
-                cardsForOneGame = DealCards();
+              //  cardsForOneGame = DealCards();
                 var player = new Player(name, cardsForOneGame, 0);
                 players.Add(player);
                 dm.SavePlayerData(player);
@@ -116,7 +118,7 @@ namespace Model.InternalLogic
             return null;
         }
 
-        public List<Player> GetListOfPlayers()
+        public ObservableCollection<Player> GetListOfPlayers()
         {
             return dm.AllPlayers;
         }

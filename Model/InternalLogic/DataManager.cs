@@ -5,6 +5,7 @@ using Model.Players_logic;
 using Modlel.Cards;
 using System.IO;
 using LabaTeam1.Model.InternalLogic;
+using System.Collections.ObjectModel;
 
 namespace Model.InternalLogic
 {
@@ -12,12 +13,19 @@ namespace Model.InternalLogic
     {
         // производить десериалиацию в конструкторе
 
+        public DataManager()
+        {
+            AllCards = new List<ICard>();
+            AllPlayers = new ObservableCollection<Player>();
+            SerealizationAsync();
+            DeserealizationAsync();
+        }
         //TODO: serealisation/desearelesation
-        public List<ICard> AllCards { get; init; } = new List<ICard>(); //сюда будем десериализовать список карт из файла
-        public List<Player> AllPlayers { get; init; } = new List<Player>();//сюда будем десериализовать список игроков из файла
+        public List<ICard> AllCards { get; init; } //сюда будем десериализовать список карт из файла
+        public ObservableCollection<Player> AllPlayers { get; init; }//сюда будем десериализовать список игроков из файла
         bool isNewPlayer = true;
         string playersFileName = "players.json";
-        string cardsFileName = "cards.json";
+        string cardsFileName = "Files/Game_cards.json";
         public void SavePlayerData(Player player)
         {
             foreach (Player p in AllPlayers)
@@ -31,13 +39,19 @@ namespace Model.InternalLogic
 
             if (isNewPlayer == true)
                 AllPlayers.Add(player);
+            DeserealizationAsync();
         }
 
         public async Task SerealizationAsync()
         {
+            var options = new JsonSerializerOptions
+            {
+                IncludeFields = true,
+            };
+
             using (FileStream fs = new FileStream(playersFileName, FileMode.OpenOrCreate))
                 foreach (Player p in AllPlayers)
-                    await JsonSerializer.SerializeAsync<Player>(fs, p);
+                   await JsonSerializer.SerializeAsync<Player>(fs,p);
         }
         public async Task DeserealizationAsync()
         {

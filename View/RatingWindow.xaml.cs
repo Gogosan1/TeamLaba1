@@ -1,7 +1,9 @@
 ﻿using LabaTeam1.Model.InternalLogic;
 using Model.InternalLogic;
+using Model.Players_logic;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,19 +15,29 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WpfApp1.Controller;
 
 namespace WpfApp1.View
 {
     /// <summary>
     /// Логика взаимодействия для RatingWindow.xaml
     /// </summary>
-    public partial class RatingWindow : Window
+
+    public class TestData
     {
-        public RatingWindow()
+        public string ModelName { get; set; }
+        public string UnitCost { get; set; }
+    }
+        public partial class RatingWindow : Window
+    {
+        public RatingWindow(GameWindowController controller)
         {
-            IGettingListOfPlayers players = new DataManager();
-           // DataManager ga = new DataManager();
-            PlayersDataGrid.ItemsSource = players.AllPlayers;
+            PlayersDataGrid = new DataGrid();
+            ObservableCollection<Player> players = controller.GetListOfPlayers();
+            PlayersDataGrid.ItemsSource = players;
+            
+            
+
             InitializeComponent();
         }
 

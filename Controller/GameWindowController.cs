@@ -1,6 +1,8 @@
 ﻿using Model.InternalLogic;
+using Model.Players_logic;
 using Modlel.Cards;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 namespace WpfApp1.Controller
@@ -8,6 +10,10 @@ namespace WpfApp1.Controller
     public class GameWindowController
     {
 
+        public GameWindowController()
+        {
+            game = new Game();
+        }
        public int GetHealth(string type) => game.GetHealth(type);
 
         public string MakeAMove(List<ICard> cards)
@@ -21,6 +27,19 @@ namespace WpfApp1.Controller
         {
             return game.PlayerCardsInHand();
         }
+
+        public bool IsPlayerByNickExist(string name)
+        {
+            if (game.IsPlayerExist(name))
+                return true;
+            else
+            {
+                game.AddPlayer(name);
+                return false;
+            }
+        }
+        public ObservableCollection<Player> GetListOfPlayers() => game.GetListOfPlayers();
+
         private Game game;
     }
 }

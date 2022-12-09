@@ -3,16 +3,20 @@ using Modlel.Cards;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Text.Json.Serialization;
 using WpfApp1;
 
 namespace Model.Players_logic
 {
     public class Player : IPlayer
     {
-        public string NickName { get; init; }
-        public List<ICard> CardsInHands { get; init; } // List of 8 cards or more
+        [JsonInclude]
         public int GlobalRating { get; set; }
+        [JsonInclude]
+        public string NickName { get; init; }
+  
         public bool IsAttack { get; set; } 
+        public List<ICard> CardsInHands { get; init; } // List of 8 cards or more
 
         private int health;
         private int pointsPerGame;

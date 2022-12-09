@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp1.Controller;
 using WpfApp1.View;
 
 namespace WpfApp1
@@ -22,14 +23,15 @@ namespace WpfApp1
     /// </summary>
     public partial class MenuWindow : Window
     {
-        public MenuWindow()
+        public MenuWindow(GameWindowController controller)
         {
+            this.controller = controller;
             InitializeComponent();
         }
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
-            var form = new GameWindow();
+            var form = new GameWindow(controller);
             form.ShowDialog();
         }
 
@@ -41,7 +43,7 @@ namespace WpfApp1
 
         private void RatingLoadButton_Click(object sender, RoutedEventArgs e)
         {
-            var form = new RatingWindow();
+            var form = new RatingWindow(controller);
             form.ShowDialog();
         }
 
@@ -49,6 +51,6 @@ namespace WpfApp1
         {
            Environment.Exit(0);
         }
-        private Game game;
+        private GameWindowController controller;
     }
 }

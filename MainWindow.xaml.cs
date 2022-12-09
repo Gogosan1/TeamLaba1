@@ -10,21 +10,21 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfApp1.Controller;
 using WpfApp1;
 
-namespace LabaTeam1.View
+namespace WpfApp2
 {
     /// <summary>
-    /// Логика взаимодействия для Window1.xaml
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class Window1 : Window
+    public partial class MainWindow : Window
     {
-        public Window1()
+        public MainWindow()
         {
-            //var controller = new StartWindowController();
-
+            controller = new GameWindowController();
             InitializeComponent();
         }
 
@@ -36,12 +36,12 @@ namespace LabaTeam1.View
                     MessageBox.Show("С возвращением");
                 else
                     MessageBox.Show("Добро пожаловать! Рады новым пользователям.");
-                var form = new MenuWindow();
+                var form = new MenuWindow(controller);
                 form.ShowDialog();
             }
             else
                 MessageBox.Show("Значение имени не может быть пустым.");
         }
-        private StartWindowController controller;
+        private GameWindowController controller;
     }
 }

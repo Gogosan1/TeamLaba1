@@ -24,8 +24,11 @@ namespace WpfApp1.View
     /// </summary>
     public partial class GameWindow : Window
     {
-        public GameWindow()
+        public GameWindow(GameWindowController controller1)
         {
+            ListOfCardsComboBox = new ComboBox();
+            controller = controller1;
+    
             cardsFromOneMove = new List<ICard>(); 
             cardsFromHand = controller.CardsOfPlayer();
             List<string> cardsDescriptions = new List<string>();
@@ -37,7 +40,7 @@ namespace WpfApp1.View
                 {
                     Creature creature = (Creature)card;
                     string cardDescription = "Creature ";
-                    cardDescription += $" Name: {creature.Name} ";
+                    cardDescription += $"Name: {creature.Name} ";
                     cardDescription += $"Health: {creature.Health.ToString()} ";
                     cardDescription += $"Power: {creature.Power.ToString()} ";
                     cardsDescriptions.Add(cardDescription);
@@ -99,6 +102,7 @@ namespace WpfApp1.View
                     List<ICard> cards = cardsFromOneMove;
                     cardsFromOneMove.Clear();
                     GameLogsTextBlock.Text = controller.MakeAMove(cards);
+                   // Вызывать метод игра закончена
                 }
             }
                 
@@ -129,6 +133,7 @@ namespace WpfApp1.View
             
             PlayersHealthLabel.Content = controller.GetHealth("Player");
             BotHealthLabel.Content = controller.GetHealth("Bot");
+          //  Пергамес притягивать а не гаме ратинг
             PlayersGamesRatingLabel.Content = controller.GetGamesRating("Player");
             BotsGamesRatingLabel.Content = controller.GetGamesRating("Bot");
         }
