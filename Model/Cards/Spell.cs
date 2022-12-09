@@ -6,11 +6,7 @@ namespace Model.Cards
     {
         public int Power { get; set; }
         public string Name { get; init; }
-        //public Spell()
-        //{
-        //    this.Name = "";
-        //    Power = 0;
-        //}
+
         public ImprovesPowerSpell(string name, int power)
         {
             this.Name = name;

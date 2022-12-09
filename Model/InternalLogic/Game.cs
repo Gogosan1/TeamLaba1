@@ -1,4 +1,5 @@
-﻿using Model.Players_logic;
+﻿using Model.Cards;
+using Model.Players_logic;
 using Modlel.Cards;
 using System;
 using System.Collections.Generic;
@@ -6,29 +7,34 @@ using System.Collections.ObjectModel;
 using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
 using System.Web;
+using LabaTeam1.Model.InternalLogic;
 
 namespace Model.InternalLogic
 {
     public class Game
     {
-        private DataManager dm;
+        private DataManager dm = new DataManager();
         private List<IPlayer> players;
         private int CounterOfRounds;
+        private bool PlayerWon = false;
+        private string gameStatus = "";
+        IAnylyzingMove anylyzingMove;
+        IFinishGame finishGame;
+        IDescribeCard describeCard;
 
         public Game()
         {
-            dm = new DataManager();
             players = new List<IPlayer>();
             CounterOfRounds = 0;
         }
 
-        public void AddPlayer (string name)
+        public void AddPlayer(string name)
         {
             List<ICard> cardsForOneGame = new List<ICard>();
 
             if (!IsPlayerExist(name))
             {
-              //  cardsForOneGame = DealCards();
+                cardsForOneGame = DealCards();
                 var player = new Player(name, cardsForOneGame, 0);
                 players.Add(player);
                 dm.SavePlayerData(player);
@@ -61,7 +67,7 @@ namespace Model.InternalLogic
             return IsOldPlayer;
         }
 
-        private List<ICard> DealCards ()
+        private List<ICard> DealCards()
         {
             List<ICard> cardsForOneGame = new List<ICard>();
             for (int i = 0; i < 6; i++)
@@ -72,45 +78,76 @@ namespace Model.InternalLogic
             }
             return cardsForOneGame;
         }
-
+      
+        public string FinishGameCheck()
+        {
+            if (gameStatus == Constants.GAME_OVER && PlayerWon == true)
+                return $"Вы выиграли !! Теперь ваш рейтинг повысился";
+            else if (gameStatus == Constants.GAME_OVER && PlayerWon == false)
+                return $"Вы проиграли :( Теперь ваш рейтинг снизился";
+            return string.Empty;
+        }
         public string CompleteRound(List<ICard> cards) // срабатывает при нажатии на кнопкку
         {
             string MessageLog = "";
-            // либо сделать через возврат логов либо через подписку
             List<ICard> playerCards = cards;
+            List<ICard> botCards = new List<ICard>();
             Bot bot = new Bot();
-            foreach ( var player in players)
-            {
-                if (typeof(Bot).IsInstanceOfType(player))
-                    {
-                     bot = (Bot)player;
-                    }
-            }
-            List<ICard> botCards = bot.PutCardFromHandOnTheTable();
+            Player player = new Player();
+            ICard playerCreature = new Creature();
+            ICard botCreature = new Creature();
 
-            // тут логика взамодействия карт
-            // 
+            foreach (var p in players)
+            {
+                if (typeof(Bot).IsInstanceOfType(p))
+                    bot = (Bot)p;
+                else if (typeof(Player).IsInstanceOfType(p))
+                    player = (Player)p;
+            }
+            botCards = bot.PutCardFromHandOnTheTable();
+
+            MessageLog += $"Ваши карты: {describeCard.DescribeSelectedCards(playerCards)}";
+            MessageLog += $"Карты соперника: {describeCard.DescribeSelectedCards(botCards)}";
 
             // отрабатывает логика с заклинаниями
             if (playerCards.Count == 2)
-             //   ICard NewCardCreatureP = UseSpell(playerCards);
+            {
+                playerCreature = anylyzingMove.UseSpell(playerCards, player);
+                MessageLog += $"Ваша карта существа после применения заклинания:\n{describeCard.DescribeCard(playerCreature)}";
+            }
 
             if (botCards.Count == 2)
-               // ICard NewCardCreatureB = UseSpell(botCards);
+            {
+                botCreature = anylyzingMove.UseSpell(botCards, bot);
+                MessageLog += $"Карта существа соперника после применения заклинания:\n{describeCard.DescribeCard(botCreature)}";
+            }
 
             // отрабатывает логика с начислением очков и отниманием здоровья
-
-
+            if (player.IsAttack == true)
+            {
+                player.IsAttack = false;
+                MessageLog += anylyzingMove.AnalyzingMove(playerCreature, botCreature, player, bot);
+            }
+            else
+            {
+                player.IsAttack = true;
+                MessageLog += anylyzingMove.AnalyzingMove(botCreature, playerCreature, bot, player);
+            }
 
             CounterOfRounds++;
 
-            if (CounterOfRounds == 12 /* или кто-то умер...*/)
-                throw new Exception("Игра закончена");
+            if (CounterOfRounds == Constants.ROUNDS_MAX_COUNT)
+               finishGame.FinishGame(Constants.ROUNDS_NUM_ENDED, player, bot, gameStatus, PlayerWon);
+            else if (player.GetHealth() == 0)
+                finishGame.FinishGame(Constants.PLAYER_DIED, player, bot, gameStatus, PlayerWon);
+            else if (bot.GetHealth() == 0)
+                finishGame.FinishGame(Constants.BOT_DIED, player, bot, gameStatus, PlayerWon);
 
-            return null; // возвращаем большое сообщение что произошло
+            return MessageLog;
         }
+    
 
-        public List<ICard> PlayerCardsInHand()
+    public List<ICard> PlayerCardsInHand()
         {
             foreach (var player in players)
                 if (typeof(Player).IsInstanceOfType(player))

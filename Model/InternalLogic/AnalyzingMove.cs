@@ -1,184 +1,71 @@
-﻿/*using LabaCreatedWithTeamWork.Players_logic;
+﻿using Model.Cards;
+using Model.Players_logic;
+using Modlel.Cards;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LabaCreatedWithTeamWork.Cards;
-using System.Numerics;
-using static LabaCreatedWithTeamWork.Cards.Spell;
+using System.Collections.ObjectModel;
+using System.Runtime.ExceptionServices;
+using System.Runtime.InteropServices;
+using System.Web;
+using LabaTeam1.Model.InternalLogic;
 
 namespace Model.InternalLogic
 {
-    interface IConductRound
+    interface IAnylyzingMove
     {
-        void AnalyzeMove(IPlayerForAnalyzingMove player, IBotForAnalyzingMove bot);
-        void AddCardToPlayer();
+        string AnalyzingMove(ICard attackingCard, ICard defendingCard, IPlayerForAnalyzingMove attackingPlayer, IPlayerForAnalyzingMove defendingPlayer)
+        {
+            return String.Empty;
+        }
+        ICard UseSpell(List<ICard> Cards, IAddHealth playerOrBot);
     }
-
-    public class ConductRound : IConductRound
+    public class AnalyzeMove : IAnylyzingMove
     {
-        AnalyzeMove(IPlayerForAnalyzingMove player, IBotForAnalyzingMove bot)
+        private string WhoseCardWon(IPlayerForAnalyzingMove player)
         {
-             ICard attackingCard = new Creature();
-             ICard defendingCard = new Creature();
-        }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //private List<ICard> playerCards = new List<ICard>();
-        //private List<ICard> botCards = new List<ICard>(); 
-        private ICard attackingCard = new Creature();
-        private ICard defendingCard = new Creature();
-        //private ICard playerCreatureCard = new Creature();
-        //private ICard botCreatureCard = new Creature();
-        private ICard playerSpell = new Spell();
-        private ICard botSpell = new Spell();
-        private void IdentifyRolesOfCards(IPutCardFromHandOnTheTable player, IPutCardFromHandOnTheTable bot, List<ICard> playerCards, List<ICard> botCards)
-        {
-            playerCards = player.PutCardFromHandOnTheTable();
-            botCards = bot.PutCardFromHandOnTheTable();
-
-            
-            //if (playerCards.Count == 1)
-            //    playerCreatureCard = playerCards[0];
-            //else
-            //    foreach (var c in playerCards)
-            //    {
-            //        if (c is Spell)
-            //            playerSpell = c;
-            //        else if (c is Creature)
-            //        playerCreatureCard = c;
-            //    }
-            //if (botCards.Count == 1)
-            //    botCreatureCard = botCards[0];
-            //else
-            //    foreach (var c in botCards)
-            //    {
-            //        if (c is Spell)
-            //            botSpell = c;
-            //        else if (c is Creature)
-            //            botCreatureCard = c;
-            //    }
-            foreach (var c in player.PutCardFromHandOnTheTable())
-            {
-                if(typeof(Spell).IsInstanceOfType(c))
-                    UseSpells(player,c)
-            }
-        }
-        private void UseSpells(IAddHealth player, IAddHealth bot, ICard playerSpell, ICard botSpell, ICard playerCreatureCard, ICard botCreatureCard)
-        {
-            if (playerSpell.Type == SpellType.ImprovesPower)
-                playerCreatureCard.Power += playerSpell.Power;
-            else if (playerSpell.Type == SpellType.ImprovesProtection)
-                playerCreatureCard.Health += playerSpell.Power;
-            else if (playerSpell.Type == SpellType.HealsPlayer)
-                player.AddHealth(playerSpell);
-
-            if (botSpell.Type == SpellType.ImprovesPower)
-                botCreatureCard.Power += botSpell.Power;
-            else if (botSpell.Type == SpellType.ImprovesProtection)
-                botCreatureCard.Health += botSpell.Power;
-            else if (botSpell.Type == SpellType.HealsPlayer)
-                bot.AddHealth(botSpell);
-        }
-        private void UseSpells(IAddHealth bot, ICard playerSpell, ICard botSpell, ICard playerCreatureCard, ICard botCreatureCard)
-        {
-            if (playerSpell.Type == SpellType.ImprovesPower)
-                playerCreatureCard.Power += playerSpell.Power;
-            else if (playerSpell.Type == SpellType.ImprovesProtection)
-                playerCreatureCard.Health += playerSpell.Power;
-            else if (playerSpell.Type == SpellType.HealsPlayer)
-                player.AddHealth(playerSpell);
-
-            if (botSpell.Type == SpellType.ImprovesPower)
-                botCreatureCard.Power += botSpell.Power;
-            else if (botSpell.Type == SpellType.ImprovesProtection)
-                botCreatureCard.Health += botSpell.Power;
-            else if (botSpell.Type == SpellType.HealsPlayer)
-                bot.AddHealth(botSpell);
-        }
-
-        public void AnalyzeMove(IPlayerForAnalyzingMove player, IBotForAnalyzingMove bot)
-        {
-            IdentifyRolesOfCards(player, bot, playerCards, botCards);
-            UseSpells(player, bot, playerSpell, botSpell, playerCreatureCard, botCreatureCard);
-
-            bool DamageIsMoreHealth = attackingCard.Power > defendingCard.Health;
-            bool DamageIsLessHealth = attackingCard.Power < defendingCard.Health;
-            bool DamageIsEqualsHealth = attackingCard.Power == defendingCard.Health;
-
-            if (player.IsAttack == true)// - игрок атакует
-            {
-                player.IsAttack = false;
-                attackingCard = playerCreatureCard;
-                defendingCard = botCreatureCard;
-
-                if (DamageIsMoreHealth)
-                {
-                    bot.health -= attackingCard.Power - defendingCard.Health;
-                    player.AddPointsPerGame(); //договориться о системе начислений
-                }
-
-                else if (DamageIsLessHealth)
-                {
-                    defendingCard.Health -= attackingCard.Power;
-                    bot.AddPointsPerGame();
-                }
-
-                else if (DamageIsEqualsHealth)
-                {
-                    player.AddPointsPerGame();
-                    bot.AddPointsPerGame();
-                }
-            }
-
+            if (typeof(Player).IsInstanceOfType(player))
+                return "ваша карта";
             else
+                return "карта соперника";
+        }
+        public ICard UseSpell(List<ICard> Cards, IAddHealth playerOrBot)
+        {
+            if (typeof(ImprovesPowerSpell).IsInstanceOfType(Cards[1]))
+                Cards[0].Power += Cards[1].Power;
+            else if (typeof(ImprovesProtectionSpell).IsInstanceOfType(Cards[1]))
+                ((ICreature)Cards[0]).Health += Cards[1].Power;
+            else if (typeof(HealsPlayerSpell).IsInstanceOfType(Cards[1]))
+                playerOrBot.AddHealth(Cards[1]);
+            return Cards[0];
+        }
+        public string AnalyzingMove(ICard attackingCard, ICard defendingCard, IPlayerForAnalyzingMove attackingPlayer, IPlayerForAnalyzingMove defendingPlayer)
+        {
+            string info = "В этом сражении победила ";
+            bool DamageIsMoreHealth = attackingCard.Power > ((ICreature)defendingCard).Health;
+            bool DamageIsLessHealth = attackingCard.Power < ((ICreature)defendingCard).Health;
+            bool DamageIsEqualsHealth = attackingCard.Power == ((ICreature)defendingCard).Health;
+
+            if (DamageIsMoreHealth)
             {
-                attackingCard = botCreatureCard;
-                defendingCard = playerCreatureCard;
-                player.IsAttack = true;
-
-                if (DamageIsMoreHealth)
-                {
-                    player.health -= attackingCard.Power - defendingCard.Health;
-                    bot.AddPointsPerGame(); //договориться о системе начислений
-                }
-
-                else if (DamageIsLessHealth)
-                {
-                    defendingCard.Health -= attackingCard.Power;
-                    player.AddPointsPerGame();
-                }
-
-                else if (DamageIsEqualsHealth)
-                {
-                    player.AddPointsPerGame();
-                    bot.AddPointsPerGame();
-                }
+                attackingCard.Power -= ((ICreature)defendingCard).Health;
+                defendingPlayer.ReduceHealth(attackingCard);
+                attackingPlayer.AddPointsPerGame();
+                info += WhoseCardWon(attackingPlayer);
             }
+
+            else if (DamageIsLessHealth)
+            {
+                defendingPlayer.AddPointsPerGame();
+                info += WhoseCardWon(defendingPlayer);
+            }
+
+            else if (DamageIsEqualsHealth)
+            {
+                defendingPlayer.AddPointsPerGame();
+                attackingPlayer.AddPointsPerGame();
+                info += "дружба";
+            }
+            return info;
         }
     }
 }
-*/

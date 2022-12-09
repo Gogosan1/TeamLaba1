@@ -17,8 +17,6 @@ namespace Model.InternalLogic
         {
             AllCards = new List<ICard>();
             AllPlayers = new ObservableCollection<Player>();
-            SerealizationAsync();
-            DeserealizationAsync();
         }
         //TODO: serealisation/desearelesation
         public List<ICard> AllCards { get; init; } //сюда будем десериализовать список карт из файла
@@ -39,15 +37,14 @@ namespace Model.InternalLogic
 
             if (isNewPlayer == true)
                 AllPlayers.Add(player);
-            DeserealizationAsync();
         }
 
         public async Task SerealizationAsync()
         {
-            var options = new JsonSerializerOptions
-            {
-                IncludeFields = true,
-            };
+            //var options = new JsonSerializerOptions
+            //{
+            //    IncludeFields = true,
+            //};
 
             using (FileStream fs = new FileStream(playersFileName, FileMode.OpenOrCreate))
                 foreach (Player p in AllPlayers)
@@ -74,6 +71,5 @@ namespace Model.InternalLogic
             }
         }
     }
-
 
 }

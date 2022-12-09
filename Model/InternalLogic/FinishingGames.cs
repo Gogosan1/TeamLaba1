@@ -1,50 +1,51 @@
-﻿/*using LabaCreatedWithTeamWork.Players_logic;
+﻿using Model.Cards;
+using Model.Players_logic;
+using Modlel.Cards;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.ObjectModel;
+using System.Runtime.ExceptionServices;
+using System.Runtime.InteropServices;
+using System.Web;
+using LabaTeam1.Model.InternalLogic;
 
 namespace Model.InternalLogic
 {
     interface IFinishGame
     {
-        void FinishGame(IPlayerForFinishGame player, IBotForFinishGame bot);
+        void FinishGame(string whyFinishGame, IPlayerForFinishingGame player, IGetPointsPerGame bot, string gameStatus, bool PlayerWon);
     }
 
     public class FinishingGames: IFinishGame
     {
-        public void FinishGame(IPlayerForFinishGame player, IBotForFinishGame bot)
+        public void FinishGame(string whyFinishGame, IPlayerForFinishingGame player, IGetPointsPerGame bot, string gameStatus, bool PlayerWon)
         {
-            bool PlayerDied = player.GetHealth() == 0;
-            bool botDied = bot.GetHealth() == 0;
-            bool impossibleToMakeMove;
-            
-            if (PlayerDied)
+            if (whyFinishGame == Constants.ROUNDS_NUM_ENDED)
+            {
+                if (player.GetPointsPerGame() > bot.GetPointsPerGame())
+                    PlayerWon = true;
+               else PlayerWon = false;
+                gameStatus += Constants.GAME_OVER;
+            }
+            else if (whyFinishGame == Constants.PLAYER_DIED)
+            {
+                PlayerWon = false;
+                gameStatus += Constants.GAME_OVER;
+            }
+            else if (whyFinishGame == Constants.BOT_DIED)
+            {
+                PlayerWon = true;
+                gameStatus += Constants.GAME_OVER;
+            }
+
+            if (PlayerWon == true)
+            {
+                player.GlobalRating += player.GetPointsPerGame();
+            }
+            else
             {
                 player.GlobalRating -= Constants.LOSS_OF_POINTS;
-                
-                if (player.GlobalRating < 0)
-                    player.GlobalRating = 0;
-            }
-            else if (botDied)
-                player.GlobalRating += player.GetPointsPerGame();
-            else if (impossibleToMakeMove)
-            {
-                if (player.GetPointsPerGame() == bot.GetPointsPerGame())
-                    player.GlobalRating += player.GetPointsPerGame() / 2;
-                if (player.GetPointsPerGame() > bot.GetPointsPerGame())
-                    player.GlobalRating += player.GetPointsPerGame();
-                else
-                {
-                    player.GlobalRating -= Constants.LOSS_OF_POINTS;
-
-                    if (player.GlobalRating < 0)
-                        player.GlobalRating = 0;
-                }
             }
         }
     }
 }
-*/

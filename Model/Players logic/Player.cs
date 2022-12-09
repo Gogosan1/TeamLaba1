@@ -1,14 +1,14 @@
-﻿using Model.Cards;
+﻿using LabaTeam1.Model.InternalLogic;
+using Model.Cards;
 using Modlel.Cards;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text.Json.Serialization;
-using WpfApp1;
 
 namespace Model.Players_logic
 {
-    public class Player : IPlayer
+    public class Player : IPlayer, IAddHealth, IisAttack, IPlayerForAnalyzingMove, IPlayerForFinishingGame, IGetPointsPerGame
     {
         [JsonInclude]
         public int GlobalRating { get; set; }
@@ -16,11 +16,14 @@ namespace Model.Players_logic
         public string NickName { get; init; }
   
         public bool IsAttack { get; set; } 
-        public List<ICard> CardsInHands { get; init; } // List of 8 cards or more
+        public List<ICard> CardsInHands { get; init; }
 
         private int health;
         private int pointsPerGame;
 
+        public Player()
+        {
+        }
 
         public Player (string nickName, List<ICard> cards, int globalRating)
         {
@@ -42,7 +45,7 @@ namespace Model.Players_logic
         }
         public int GetPointsPerGame() => pointsPerGame;
 
-        public void AddHealth(ICard card)//передаем сюда spell
+        public void AddHealth(ICard card)
         {
             health += card.Power;
         }
