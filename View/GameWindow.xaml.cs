@@ -24,10 +24,10 @@ namespace WpfApp1.View
     /// </summary>
     public partial class GameWindow : Window
     {
-        public GameWindow(GameWindowPresenter controller1)
+        public GameWindow(GameWindowPresenter presenter)
         {
             ListOfCardsComboBox = new ComboBox();
-            controller = controller1;
+            controller = presenter;
     
             cardsFromOneMove = new List<ICard>(); 
             cardsFromHand = controller.CardsOfPlayer();

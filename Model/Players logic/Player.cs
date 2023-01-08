@@ -14,13 +14,25 @@ namespace Model.Players_logic
         public int GlobalRating { get; set; }
         [JsonInclude]
         public string NickName { get; init; }
-  
-        public bool IsAttack { get; set; } 
+
+        [JsonIgnore]
+        public bool IsAttack { get; set; }
+        [JsonIgnore]
         public List<ICard> CardsInHands { get; init; } // List of 8 cards or more
 
         private int health;
         private int pointsPerGame;
 
+        [JsonConstructor]
+        public Player(int GlobalRating, string NickName)
+        {
+            this.NickName = NickName;
+            CardsInHands = new List<ICard>();
+            pointsPerGame = 0;
+            this.GlobalRating = GlobalRating;
+            health = Constants.DEFAULT_HEALTH;
+            IsAttack = true;
+        }
 
         public Player (string nickName, List<ICard> cards, int globalRating)
         {

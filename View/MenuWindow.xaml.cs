@@ -1,19 +1,7 @@
-﻿using Model.InternalLogic;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using WpfApp1.Controller;
 using WpfApp1.View;
 
@@ -24,34 +12,30 @@ namespace WpfApp1
     /// </summary>
     public partial class MenuWindow : Window
     {
-        public MenuWindow(GameWindowController controller)
+        public MenuWindow(GameWindowPresenter presenter)
         {
-            this.controller = controller;
+            this.presenter = presenter;
             InitializeComponent();
         }
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
-            var form = new GameWindow(controller);
+            var form = new GameWindow(presenter);
             form.ShowDialog();
         }
 
         private void RulesLoadButton_Click(object sender, RoutedEventArgs e)
         {
-            using(StreamReader sr = new StreamReader("Rules.txt"))
-            {
-                string[] lines = sr.ReadToEnd().Split(new[] {"\r\n","\n"}, StringSplitOptions.None);
-                for(int i =0; i < lines.Count; i++)
-                {
-                    MessageBox.Show(lines[i]);
-                }
-            }
+           var sr = new StreamReader("Files/Rules.txt", Encoding.Default);
+           
+           MessageBox.Show(sr.ReadToEnd());
+            
             
         }
 
         private void RatingLoadButton_Click(object sender, RoutedEventArgs e)
         {
-            var form = new RatingWindow(controller);
+            var form = new RatingWindow(presenter);
             form.ShowDialog();
         }
 
@@ -59,6 +43,6 @@ namespace WpfApp1
         {
            Environment.Exit(0);
         }
-        private GameWindowController controller;
+        private GameWindowPresenter presenter;
     }
 }

@@ -5,10 +5,64 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp2"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="470" Width="388" ResizeMode="CanMinimize">
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="Black"/>
+            <GradientStop Color="#FF10301F" Offset="1"/>
+            <GradientStop Color="#FF577364" Offset="0.007"/>
+            <GradientStop Color="#FF274D38" Offset="0.545"/>
+            <GradientStop Color="#FF335342" Offset="0.347"/>
+        </LinearGradientBrush>
+    </Window.Background>
+    <Window.Resources>
+        <Style x:Key="TB" TargetType="TextBox">
+            <Setter Property="Background" Value="#97bea9"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Width" Value="300"/>
+            <Setter Property="Foreground" Value="#052f1d"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="BorderBrush" Value="#052f1d"/>
+            <Setter Property="FontFamily" Value="Britannic Bold"/>
+        </Style>
+        <Style x:Key="Button" TargetType="Button">
+            <Setter Property="Background" Value="#052f1d"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Foreground" Value="#97bea9"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#97bea9"/>
+            <Setter Property="FontFamily" Value="Britannic Bold"/>
+        </Style>
+    </Window.Resources>
     <Grid>
-        <Button x:Name="LetsGoButton" Content="Button" HorizontalAlignment="Left" Margin="332,278,0,0" VerticalAlignment="Top" Width="100" Click="LetsGoButton_Click"/>
-        <TextBox x:Name="PlayerNickTextBox" HorizontalAlignment="Left" Margin="334,203,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="27"/>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="90"/>
+            <RowDefinition Height="140"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Button x:Name="LetsGoButton" Content="Button" HorizontalAlignment="Left" Margin="332,278,0,0" VerticalAlignment="Top" Width="100" Click="LetsGoButton_Click"/>
+            <TextBox x:Name="PlayerNickTextBox" HorizontalAlignment="Left" Margin="334,203,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
 
+        </Grid>
+        <Grid Name="Logo" Background="Transparent" Grid.Row="1" >
+            <Image Source="Logo.png"/>
+        </Grid>
+        <TextBox x:Name="NickTextBox" Grid.Row="2" Style="{StaticResource TB}" VerticalAlignment="Bottom" Margin="44,44,44,10"/>
+        <Label Grid.Row="2" 
+               Height="30"
+               Content="введите свой ник" 
+               HorizontalAlignment="Left" 
+               VerticalAlignment="Top"
+               Margin="42, 20, 5, 5" 
+               FontFamily="Britannic Bold"
+               FontSize="15"
+               Foreground = "#042215">
+        </Label>
+        <Button x:Name="StartButton" Grid.Row="3" Style="{StaticResource Button}" VerticalAlignment="Top" Content="Вперед!"/>
     </Grid>
 </Window>

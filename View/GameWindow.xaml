@@ -6,21 +6,52 @@
         xmlns:local="clr-namespace:WpfApp1.View"
         mc:Ignorable="d"
         Title="Window3" Height="442" Width="1488">
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="Black"/>
+            <GradientStop Color="#FF10301F" Offset="1"/>
+            <GradientStop Color="#FF577364" Offset="0.007"/>
+            <GradientStop Color="#FF274D38" Offset="0.545"/>
+            <GradientStop Color="#FF335342" Offset="0.347"/>
+        </LinearGradientBrush>
+    </Window.Background>
+    <Window.Resources>
+        <Style x:Key="TB" TargetType="TextBox">
+            <Setter Property="Background" Value="#97bea9"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Width" Value="300"/>
+            <Setter Property="Foreground" Value="#052f1d"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="BorderBrush" Value="#052f1d"/>
+            <Setter Property="FontFamily" Value="Britannic Bold"/>
+        </Style>
+        <Style x:Key="Button" TargetType="Button">
+            <Setter Property="Background" Value="#052f1d"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Foreground" Value="#97bea9"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#97bea9"/>
+            <Setter Property="FontFamily" Value="Britannic Bold"/>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="22*"/>
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
         <Label Content="Ваш ход, выберите карту" HorizontalAlignment="Left" Margin="2,-4,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="PlayersHealthLabel" Content="Ваше здоровье: 0" HorizontalAlignment="Left" Margin="16,191,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="BotHealthLabel" Content="Здоровье соперника: 0" HorizontalAlignment="Left" Margin="193,190,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="MakeAMoveButton" Content="Выполнить ход" HorizontalAlignment="Left" Margin="51,279,0,0" VerticalAlignment="Top" Click="MakeAMoveButton_Click"/>
-        <TextBlock x:Name="GameLogsTextBlock" 
+        <Label x:Name="PlayersHealthLabel" Foreground="#97bea9" Content="Ваше здоровье: 0" HorizontalAlignment="Left" Margin="16,191,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="BotHealthLabel" Foreground="#97bea9" Content="Здоровье соперника: 0" HorizontalAlignment="Left" Margin="193,190,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="MakeAMoveButton" Style="{StaticResource Button}" Content="Выполнить ход" HorizontalAlignment="Left" Margin="21,279,0,0" VerticalAlignment="Top" Click="MakeAMoveButton_Click"/>
+        <TextBlock x:Name="GameLogsTextBlock" Foreground="#97bea9"
                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
                  ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" Margin="366,179,0,0" TextWrapping="Wrap" Text="Тут пишутся логи( ходы во время игры)" VerticalAlignment="Top" Height="220" Width="414"/>
-        <Button x:Name="EndGameButton" Content="Закончить игру" HorizontalAlignment="Left" Margin="159,279,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="PlayersGamesRatingLabel" Content="Ввши очки: 0" HorizontalAlignment="Left" Margin="15,227,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="BotsGamesRatingLabel" Content="Очки соперника: 0" HorizontalAlignment="Left" Margin="192,226,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="EndGameButton" Style="{StaticResource Button}" Content="Закончить игру" HorizontalAlignment="Left" Margin="189,279,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="PlayersGamesRatingLabel" Foreground="#97bea9" Content="Ввши очки: 0" HorizontalAlignment="Left" Margin="15,227,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="BotsGamesRatingLabel" Foreground="#97bea9" Content="Очки соперника: 0" HorizontalAlignment="Left" Margin="192,226,0,0" VerticalAlignment="Top"/>
         <ComboBox x:Name="ListOfCardsComboBox" HorizontalAlignment="Left" Margin="43,100,0,0" VerticalAlignment="Top" Width="311"/>
 
     </Grid>
