@@ -53,9 +53,10 @@ namespace Model.InternalLogic
             bool IsOldPlayer = false;
             foreach (Player p in dm.AllPlayers)
             {
-                if (p.NickName == inputNickName)
+                if (String.Equals(p.NickName,inputNickName))
                 {
                     IsOldPlayer = true;
+                    break;
                 }
             }
             return IsOldPlayer;
@@ -118,7 +119,7 @@ namespace Model.InternalLogic
             return null;
         }
 
-        public ObservableCollection<Player> GetListOfPlayers()
+        public List<Player> GetListOfPlayers()
         {
             return dm.AllPlayers;
         }

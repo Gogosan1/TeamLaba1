@@ -24,7 +24,7 @@ namespace WpfApp1
     /// </summary>
     public partial class MenuWindow : Window
     {
-        public MenuWindow(GameWindowController controller)
+        public MenuWindow(GameWindowPresenter controller)
         {
             this.controller = controller;
             InitializeComponent();
@@ -38,14 +38,14 @@ namespace WpfApp1
 
         private void RulesLoadButton_Click(object sender, RoutedEventArgs e)
         {
-            using(StreamReader sr = new StreamReader("Rules.txt"))
+            /*using(StreamReader sr = new StreamReader("Rules.txt"))
             {
                 string[] lines = sr.ReadToEnd().Split(new[] {"\r\n","\n"}, StringSplitOptions.None);
                 for(int i =0; i < lines.Count; i++)
                 {
                     MessageBox.Show(lines[i]);
                 }
-            }
+            }*/
             
         }
 
@@ -59,6 +59,6 @@ namespace WpfApp1
         {
            Environment.Exit(0);
         }
-        private GameWindowController controller;
+        private GameWindowPresenter controller;
     }
 }

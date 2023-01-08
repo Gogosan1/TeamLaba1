@@ -2,6 +2,7 @@
 using Modlel.Cards;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using WpfApp1;
@@ -14,12 +15,24 @@ namespace Model.Players_logic
         public int GlobalRating { get; set; }
         [JsonInclude]
         public string NickName { get; init; }
-  
-        public bool IsAttack { get; set; } 
+        [JsonIgnore]
+        public bool IsAttack { get; set; }
+        [JsonIgnore]
         public List<ICard> CardsInHands { get; init; } // List of 8 cards or more
 
         private int health;
         private int pointsPerGame;
+
+        [JsonConstructor]
+        public Player(int globalRating, string name)
+        {
+            GlobalRating = globalRating;
+            NickName = name;
+            CardsInHands = new List<ICard>();
+            IsAttack = true;
+            health = Constants.DEFAULT_HEALTH;
+            pointsPerGame = 0;
+        }
 
 
         public Player (string nickName, List<ICard> cards, int globalRating)
