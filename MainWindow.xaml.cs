@@ -24,7 +24,7 @@ namespace WpfApp2
     {
         public MainWindow()
         {
-            controller = new GameWindowController();
+            presenter = new GameWindowPresenter();
             InitializeComponent();
         }
 
@@ -32,16 +32,17 @@ namespace WpfApp2
         {
             if (!String.IsNullOrWhiteSpace(PlayerNickTextBox.Text))
             {
-                if (controller.IsPlayerByNickExist(PlayerNickTextBox.Text))
+                if (presenter.IsPlayerByNickExist(PlayerNickTextBox.Text))
                     MessageBox.Show("С возвращением");
                 else
                     MessageBox.Show("Добро пожаловать! Рады новым пользователям.");
-                var form = new MenuWindow(controller);
+                var form = new MenuWindow(presenter);
+                this.Close();
                 form.ShowDialog();
             }
             else
                 MessageBox.Show("Значение имени не может быть пустым.");
         }
-        private GameWindowController controller;
+        private GameWindowPresenter presenter;
     }
 }

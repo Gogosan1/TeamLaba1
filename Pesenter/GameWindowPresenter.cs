@@ -7,10 +7,10 @@ using System.ComponentModel;
 
 namespace WpfApp1.Controller
 {
-    public class GameWindowController
+    public class GameWindowPresenter
     {
 
-        public GameWindowController()
+        public GameWindowPresenter()
         {
             game = new Game();
         }
@@ -38,7 +38,7 @@ namespace WpfApp1.Controller
                 return false;
             }
         }
-        public ObservableCollection<Player> GetListOfPlayers() => game.GetListOfPlayers();
+        public List<Player> GetListOfPlayers() => game.GetListOfPlayers();
 
         private Game game;
     }

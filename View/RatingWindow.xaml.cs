@@ -30,10 +30,10 @@ namespace WpfApp1.View
     }
         public partial class RatingWindow : Window
     {
-        public RatingWindow(GameWindowController controller)
+        public RatingWindow(GameWindowPresenter controller)
         {
             PlayersDataGrid = new DataGrid();
-            ObservableCollection<Player> players = controller.GetListOfPlayers();
+            List<Player> players = controller.GetListOfPlayers();
             PlayersDataGrid.ItemsSource = players;
             
             
