@@ -1,4 +1,4 @@
-﻿using Model.Cards;
+using Model.Cards;
 using Model.InternalLogic;
 using Model.Players_logic;
 using Modlel.Cards;
@@ -15,8 +15,7 @@ namespace WpfApp1.Controller
         {
             game = new Game(nameOfPlayer);
         }
-       public int GetHealth(string type) => game.GetHealth(type);
-
+       
         public string MakeAMove(List<ICard> cards)
         {
             return null; // game.CompleteRound(cards);

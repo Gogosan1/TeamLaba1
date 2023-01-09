@@ -1,8 +1,7 @@
-﻿using Model.Cards;
+using Model.Cards;
 using Modlel.Cards;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using WpfApp1;

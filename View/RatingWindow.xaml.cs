@@ -1,4 +1,4 @@
-﻿using Model.Players_logic;
+using Model.Players_logic;
 using System.Collections.Generic;
 using System.Data;
 using System.Windows;

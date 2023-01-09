@@ -1,4 +1,4 @@
-﻿using LabaCreatedWithTeamWork.Players_logic;
+using LabaCreatedWithTeamWork.Players_logic;
 using Model.Cards;
 using Model.Players_logic;
 using Modlel.Cards;
