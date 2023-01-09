@@ -46,12 +46,14 @@ namespace Model.InternalLogic
             AddPlayersForGame(NameOfPlayer);
             CounterOfRounds = 0;
         }
+
         public void AddPlayersForGame(string name) 
         {
             var bot = new Bot(dm.AllCards);
             playersOfOneGame.Add(bot);
 
             bool playerAdded = false;
+
             foreach (Player p in dm.AllPlayers)
             {
                 if (String.Equals(p.NickName, name))
@@ -62,15 +64,16 @@ namespace Model.InternalLogic
                     break;
                 }
             }
-            if (!playerAdded)
+            if (playerAdded == false)
             {
                 Player player = new Player(0, name);
                 player.CardsInHands = DealCards();
                 playersOfOneGame.Add(player);
+                dm.AddPlayer(player);
             }
 
         }
-        public bool IsPlayerExist(string inputNickName)
+      /*  public bool IsPlayerExist(string inputNickName)
         {
             bool IsOldPlayer = false;
             foreach (Player p in dm.AllPlayers)
@@ -82,7 +85,7 @@ namespace Model.InternalLogic
                 }
             }
             return IsOldPlayer;
-        }
+        }*/
       
         
         // Посмотри, тут надо немного изменений, если не понятно как, могу это сделать я.

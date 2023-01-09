@@ -17,14 +17,12 @@ namespace WpfApp2
 
         private void LetsGoButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!String.IsNullOrWhiteSpace(PlayerNickTextBox.Text))
+            if (!String.IsNullOrWhiteSpace(NickTextBox.Text))
             {
-                presenter = new GameWindowPresenter(PlayerNickTextBox.Text);
+                presenter = new GameWindowPresenter(NickTextBox.Text);
                 
-                if (presenter.IsPlayerByNickExist(PlayerNickTextBox.Text))
-                    MessageBox.Show("С возвращением");
-                else
-                    MessageBox.Show("Добро пожаловать! Рады новым пользователям.");
+                    MessageBox.Show("Добро пожаловать!");
+
                 var form = new MenuWindow(presenter);
                 this.Close();
                 form.ShowDialog();

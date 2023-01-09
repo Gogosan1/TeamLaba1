@@ -79,7 +79,7 @@ namespace WpfApp1.Controller
         public int GetHealth(string type) => game.GetHealth(type);
         public int GetGamesRating(string type) => game.GetPointsPerGame(type);
 
-        public bool IsPlayerByNickExist(string name) => game.IsPlayerExist(name);
+       // public bool IsPlayerByNickExist(string name) => game.IsPlayerExist(name);
         public List<Player> GetListOfPlayers() => game.GetListOfPlayers();
         public List<ICard> GetListOfPlayersCardsInGame() => game.GetListOfPlayersCardsInGame();
 

@@ -25,7 +25,10 @@ namespace Model.InternalLogic
         
         //string playersFileName = "Files/players.json";
         //string cardsFileName = "Files/Game_cards.json";
-   
+        public void AddPlayer(Player player)
+        {
+            AllPlayers.Add(player);
+        }
         
         public void SavePlayerData(Player player)
         {
