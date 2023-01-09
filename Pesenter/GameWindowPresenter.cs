@@ -15,7 +15,8 @@ namespace WpfApp1.Controller
         {
             game = new Game(nameOfPlayer);
         }
-       
+       public int GetHealth(string type) => game.GetHealth(type);
+
         public string MakeAMove(List<ICard> cards)
         {
             return null; // game.CompleteRound(cards);
