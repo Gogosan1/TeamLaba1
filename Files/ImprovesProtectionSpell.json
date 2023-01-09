@@ -1,0 +1,20 @@
+{
+  "Name": "Pizza",
+  "Power": 15
+}
+{
+"Name": "Healing potion",
+"Power": "10"
+}
+{
+"Name": "Bowl of rice",
+"Power": "8"
+}
+{
+"Name": "Hot-Dog",
+"Power": "5"
+}
+{
+"Name": "Bandage",
+"Power": "10"
+}
