@@ -28,9 +28,13 @@ namespace Model.InternalLogic
         public void AddPlayer(Player player)
         {
             AllPlayers.Add(player);
+            JsonSerialize();
         }
         
-        public void SavePlayerData(Player player)
+
+        // На сколько оно тебе нужно? Можешь поменять если что а так можно поменять название и ипользовать просто для 
+        // изменения глобального рейтинга
+     /*   public void SavePlayerData(Player player)
         {
             foreach (Player p in AllPlayers)
             {
@@ -45,7 +49,7 @@ namespace Model.InternalLogic
                 AllPlayers.Add(player);
             JsonSerialize();
         }
-
+*/
         private void JsonSerialize()
         {
             string jsonString = JsonSerializer.Serialize<List<Player>>(AllPlayers);
