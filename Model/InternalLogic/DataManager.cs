@@ -1,13 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 using System.Text.Json;
 using Model.Players_logic;
 using Modlel.Cards;
 using System.IO;
-using LabaTeam1.Model.InternalLogic;
-using System.Collections.ObjectModel;
-using System.Runtime.Serialization;
-using System.Windows;
+using Model.Cards;
 
 namespace Model.InternalLogic
 {
@@ -19,16 +15,16 @@ namespace Model.InternalLogic
         {
             AllCards = new List<ICard>();
             AllPlayers = new List<Player>();
-           // AllPlayers = DeserealizationPlayers();
-            // SerealizationAsync();
-            int t= 10;
+            AllPlayers = DeserealizationPlayers();
+            DeserializationCards();
         }
-        //TODO: serealisation/desearelesation
-        public List<ICard> AllCards { get; init; } //сюда будем десериализовать список карт из файла
-        public List<Player> AllPlayers { get; init; }//сюда будем десериализовать список игроков из файла
+       
+        public List<ICard> AllCards { get; init; } 
+        public List<Player> AllPlayers { get; init; }
         bool isNewPlayer = true;
-        string playersFileName = "players.json";
-        string cardsFileName = "Files/Game_cards.json";
+        
+        //string playersFileName = "Files/players.json";
+        //string cardsFileName = "Files/Game_cards.json";
    
         
         public void SavePlayerData(Player player)
@@ -45,53 +41,45 @@ namespace Model.InternalLogic
             if (isNewPlayer == true)
                 AllPlayers.Add(player);
             JsonSerialize();
-            //SerealizationAsync();
-            // DeserealizationAsync();
-        }
-
-        public async Task SerealizationAsync()
-        {
-            var options = new JsonSerializerOptions
-            {
-                IncludeFields = true,
-            };
-
-            using (FileStream fs = new FileStream(playersFileName, FileMode.OpenOrCreate))
-                foreach (Player p in AllPlayers)
-                   await JsonSerializer.SerializeAsync<Player>(fs,p);
         }
 
         private void JsonSerialize()
         {
-            AllPlayers.Add(new Player(0, "ttt"));
             string jsonString = JsonSerializer.Serialize<List<Player>>(AllPlayers);
-            File.WriteAllText(playersFileName, jsonString);
+            File.WriteAllText("Files/players.json", jsonString);
         }
 
 
         private List<Player> DeserealizationPlayers()
         {
-            string jsonString = File.ReadAllText(playersFileName);
+            // если пустой файл чета придумать
+            string jsonString = File.ReadAllText("Files/players.json");
             return JsonSerializer.Deserialize<List<Player>>(jsonString)!;
-
-/*            using (var fs = new FileStream("players.json", FileMode.Open))
-            {
-                Player? p = await JsonSerializer.DeserializeAsync<Player>(fs);
-                while (p != null)
-                {
-                    AllPlayers.Add(p);
-                }
-            }
-**//*//*
-            using (FileStream fs = new FileStream(cardsFileName, FileMode.OpenOrCreate))
-            {
-                ICard? p = await JsonSerializer.DeserializeAsync<ICard>(fs);
-                while (p != null)
-                {
-                    AllCards.Add(p);
-                }
-            }*/
         }
+
+        private void DeserializationCards()
+        {
+            string creaturesFile = File.ReadAllText("Files/Creatures.json");
+            var creatures = JsonSerializer.Deserialize<List<Creature>>(creaturesFile)!;
+            foreach(Creature creature in creatures)
+                AllCards.Add(creature);
+
+            string HealsPlayerSpellFile = File.ReadAllText("Files/HealsPlayerSpell.json");
+            var HealsPlayerSpells = JsonSerializer.Deserialize<List<HealsPlayerSpell>>(HealsPlayerSpellFile)!;
+            foreach (HealsPlayerSpell spell in HealsPlayerSpells)
+                AllCards.Add(spell);
+
+            string ImprovesPowerSpellFile = File.ReadAllText("Files/ImprovesPowerSpell.json");
+            var ImprovesPowerSpells = JsonSerializer.Deserialize<List<ImprovesPowerSpell>>(ImprovesPowerSpellFile)!;
+            foreach (ImprovesPowerSpell spell1 in ImprovesPowerSpells)
+                AllCards.Add(spell1);
+
+            string ImprovesProtectionSpellFile = File.ReadAllText("Files/ImprovesProtectionSpell.json");
+            var ImprovesProtectionSpells = JsonSerializer.Deserialize<List<ImprovesProtectionSpell>>(ImprovesProtectionSpellFile)!;
+            foreach (ImprovesProtectionSpell spell2 in ImprovesProtectionSpells)
+                AllCards.Add(spell2);
+        }
+
     }
 
 
