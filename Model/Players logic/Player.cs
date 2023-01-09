@@ -1,8 +1,7 @@
-﻿using Model.Cards;
+using Model.Cards;
 using Modlel.Cards;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using WpfApp1;
@@ -15,35 +14,27 @@ namespace Model.Players_logic
         public int GlobalRating { get; set; }
         [JsonInclude]
         public string NickName { get; init; }
+
         [JsonIgnore]
         public bool IsAttack { get; set; }
         [JsonIgnore]
-        public List<ICard> CardsInHands { get; init; } // List of 8 cards or more
+        public List<ICard> CardsInHands { get; set; }
 
         private int health;
         private int pointsPerGame;
 
         [JsonConstructor]
-        public Player(int globalRating, string name)
+        public Player(int GlobalRating, string NickName)
         {
-            GlobalRating = globalRating;
-            NickName = name;
+            this.NickName = NickName;
             CardsInHands = new List<ICard>();
-            IsAttack = true;
-            health = Constants.DEFAULT_HEALTH;
             pointsPerGame = 0;
-        }
-
-
-        public Player (string nickName, List<ICard> cards, int globalRating)
-        {
-            NickName = nickName;
-            CardsInHands = cards;
-            pointsPerGame = 0;
-            GlobalRating = globalRating;
+            this.GlobalRating = GlobalRating;
             health = Constants.DEFAULT_HEALTH;
             IsAttack = true;
         }
+        public Player()
+        { }
         
         public void TakeTheCardInHands(ICard card) 
         {
@@ -55,7 +46,7 @@ namespace Model.Players_logic
         }
         public int GetPointsPerGame() => pointsPerGame;
 
-        public void AddHealth(ICard card)//передаем сюда spell
+        public void AddHealth(ICard card)
         {
             health += card.Power;
         }
@@ -64,5 +55,15 @@ namespace Model.Players_logic
             health -= card.Power;
         }
         public int GetHealth() => health;
+
+        public ICard ChooseCardFromHand(List<ICard> cards)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<ICard> PutCardFromHandOnTheTable()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
