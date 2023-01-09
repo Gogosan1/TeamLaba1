@@ -15,7 +15,8 @@ namespace WpfApp1.Controller
         {
             game = new Game(nameOfPlayer);
         }
-       
+       public int GetHealth(string type) => game.GetHealth(type);
+
         public string MakeAMove(List<ICard> cards)
         {
             return null; // game.CompleteRound(cards);
@@ -29,9 +30,9 @@ namespace WpfApp1.Controller
 
             foreach (var card in cardsFromHand)
             {
-
+           
                 if (typeof(Creature).IsInstanceOfType(card))
-                {
+        {
                     Creature creature = (Creature)card;
                     string cardDescription = "Creature \n";
                     cardDescription += $"Name: {creature.Name} \n";
@@ -50,14 +51,14 @@ namespace WpfApp1.Controller
             List<string> cardsDescriptions = new List<string>();
 
             foreach (var card in cardsFromHand)
-            {
+        {
                 string cardDescription;
                 if (typeof(HealsPlayerSpell).IsInstanceOfType(card))
                 {
                     cardDescription = "HealsPlayerSpell \n";
                 }
-                else
-                {
+            else
+            {
                     if (typeof(ImprovesPowerSpell).IsInstanceOfType(card))
                     {
                         cardDescription = "ImprovesPowerSpell \n";
