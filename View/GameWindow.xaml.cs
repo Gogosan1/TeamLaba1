@@ -24,7 +24,7 @@ namespace WpfApp1.View
     /// </summary>
     public partial class GameWindow : Window
     {
-        public GameWindow(GameWindowPresenter controller1)
+        public GameWindow(GameWindowPresenter pres)
         {
             ListOfCardsComboBox = new ComboBox();
             controller = controller1;
@@ -142,6 +142,6 @@ namespace WpfApp1.View
         private bool TakeBoost;
         private List<ICard> cardsFromOneMove;
         private List<ICard> cardsFromHand;
-        private GameWindowPresenter controller;
+        private GameWindowPresenter presenter;
     }
 }
