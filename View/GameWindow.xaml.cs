@@ -1,20 +1,9 @@
-﻿using Model.Cards;
+using Model.Cards;
 using Modlel.Cards;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Automation.Provider;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using WpfApp1.Controller;
 
 namespace WpfApp1.View
@@ -26,57 +15,44 @@ namespace WpfApp1.View
     {
         public GameWindow(GameWindowPresenter pres)
         {
-            ListOfCardsComboBox = new ComboBox();
-            controller = controller1;
-    
-            cardsFromOneMove = new List<ICard>(); 
-            cardsFromHand = controller.CardsOfPlayer();
-            List<string> cardsDescriptions = new List<string>();
-
-            foreach(var card in cardsFromHand)
-            {
-
-                if(typeof(Creature).IsInstanceOfType(card))
-                {
-                    Creature creature = (Creature)card;
-                    string cardDescription = "Creature ";
-                    cardDescription += $"Name: {creature.Name} ";
-                    cardDescription += $"Health: {creature.Health.ToString()} ";
-                    cardDescription += $"Power: {creature.Power.ToString()} ";
-                    cardsDescriptions.Add(cardDescription);
-                }
-                else
-                {
-                    string cardDescription;
-                    if (typeof(HealsPlayerSpell).IsInstanceOfType(card))
-                    {
-                        cardDescription = "HealsPlayerSpell ";
-                    }
-                    else
-                    {
-                        if (typeof(ImprovesPowerSpell).IsInstanceOfType(card))
-                        {
-                            cardDescription = "ImprovesPowerSpell ";
-                        }
-                        else
-                            cardDescription = "ImprovesProtectionSpell ";
-                    }
-                    cardDescription += $"Name: {card.Name} ";
-                    cardDescription += $"Power: {card.Power.ToString()} ";
-                    cardsDescriptions.Add(cardDescription);
-                }
-
-            }
-            ListOfCardsComboBox.Items.Add(cardsDescriptions);
+            presenter = pres;
+            cardsFromOneMove = new List<ICard>();
             InitializeComponent();
+            DrawDecks();
+            DrawHealthAndGamePoints();
         }
 
+        private void DrawDecks()
+        {
+            List<string> cardsDescriptions = new List<string>();
 
+            cardsDescriptions = presenter.DrawTheCreaturesDeck();
+            foreach (var cardsDescription in cardsDescriptions)
+                ListOfCreaturesComboBox.Items.Add(cardsDescription);
+
+            cardsDescriptions = presenter.DrawTheSpellsDeck();
+            foreach (var cardsDescription in cardsDescriptions)
+                ListOfSpellsComboBox.Items.Add(cardsDescription);
+
+        }
+
+        private void DrawHealthAndGamePoints()
+        {
+            PlayersHealthLabel.Content = presenter.GetHealth("Player");
+            BotHealthLabel.Content = presenter.GetHealth("Bot");
+            //  Пергамес притягивать а не гаме ратинг
+            PlayersGamesRatingLabel.Content = presenter.GetGamesRating("Player");
+            BotsGamesRatingLabel.Content = presenter.GetGamesRating("Bot");
+        }
+
+        // очень хрупкая фигня
         private void MakeAMoveButton_Click(object sender, RoutedEventArgs e)
         {
-            string[] strings = ListOfCardsComboBox.Text.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] strings = ListOfCreaturesComboBox.Text.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-            if (ListOfCardsComboBox.Text.Contains("Creature") && cardsFromOneMove.Count == 0)
+            // сделать проверку на пустоту листбоксов
+
+            if (ListOfCreaturesComboBox.Text.Contains("Creature") && cardsFromOneMove.Count == 0)
             {
                 string cardName = "";
                 for (int i = 0; i < strings.Length - 1; i++)
@@ -85,7 +61,7 @@ namespace WpfApp1.View
                         cardName = strings[i + 1];
 
                 }
-                foreach (var card in cardsFromHand)
+                foreach (var card in presenter.GetListOfPlayersCardsInGame())
                     if (card.Name == cardName)
                         cardsFromOneMove.Add(card);
 
@@ -101,7 +77,7 @@ namespace WpfApp1.View
                     TakeBoost = false;
                     List<ICard> cards = cardsFromOneMove;
                     cardsFromOneMove.Clear();
-                    GameLogsTextBlock.Text = controller.MakeAMove(cards);
+                    GameLogsTextBlock.Text = presenter.MakeAMove(cards);
                    // Вызывать метод игра закончена
                 }
             }
@@ -125,23 +101,19 @@ namespace WpfApp1.View
                         TakeBoost = false;
                         List<ICard> cards = cardsFromOneMove;
                         cardsFromOneMove.Clear();
-                        GameLogsTextBlock.Text = controller.MakeAMove(cards);
+                        GameLogsTextBlock.Text = presenter.MakeAMove(cards);
 
                     }
                 }
               
             
-            PlayersHealthLabel.Content = controller.GetHealth("Player");
-            BotHealthLabel.Content = controller.GetHealth("Bot");
-          //  Пергамес притягивать а не гаме ратинг
-            PlayersGamesRatingLabel.Content = controller.GetGamesRating("Player");
-            BotsGamesRatingLabel.Content = controller.GetGamesRating("Bot");
+            DrawHealthAndGamePoints();
+            DrawDecks();
         }
 
 
         private bool TakeBoost;
         private List<ICard> cardsFromOneMove;
-        private List<ICard> cardsFromHand;
         private GameWindowPresenter presenter;
     }
 }
