@@ -46,26 +46,29 @@ namespace WpfApp1.Controller
             List<string> cardsDescriptions = new List<string>();
 
             foreach (var card in cardsFromHand)
-        {
-                string cardDescription;
+            {
+                string cardDescription = "";
                 if (typeof(HealsPlayerSpell).IsInstanceOfType(card))
                 {
                     cardDescription = "HealsPlayerSpell \n";
                 }
-            else
-            {
+                else
+                {
                     if (typeof(ImprovesPowerSpell).IsInstanceOfType(card))
                     {
                         cardDescription = "ImprovesPowerSpell \n";
                     }
                     else
-                        cardDescription = "ImprovesProtectionSpell \n";
-                }
-                cardDescription += $"Name: {card.Name} \n";
-                cardDescription += $"Power: {card.Power.ToString()} ";
-                cardsDescriptions.Add(cardDescription);
-            }
+                    {
+                        if (typeof(ImprovesProtectionSpell).IsInstanceOfType(card))
+                            cardDescription = "ImprovesProtectionSpell \n";
+                    }
 
+                    cardDescription += $"Name: {card.Name} \n";
+                    cardDescription += $"Power: {card.Power.ToString()} ";
+                    cardsDescriptions.Add(cardDescription);
+                }
+            }
             return cardsDescriptions;
         }
         
