@@ -16,7 +16,6 @@ namespace WpfApp1.View
         public GameWindow(GameWindowPresenter pres)
         {
             presenter = pres;
-            cardsFromOneMove = new List<ICard>();
             InitializeComponent();
             DrawDecks();
             DrawHealthAndGamePoints();
@@ -45,75 +44,55 @@ namespace WpfApp1.View
             BotsGamesRatingLabel.Content = presenter.GetGamesRating("Bot");
         }
 
-        // очень хрупкая фигня
+
         private void MakeAMoveButton_Click(object sender, RoutedEventArgs e)
         {
-            string[] strings = ListOfCreaturesComboBox.Text.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-
-            // сделать проверку на пустоту листбоксов
-
-            if (ListOfCreaturesComboBox.Text.Contains("Creature") && cardsFromOneMove.Count == 0)
+            
+            if (ListOfCreaturesComboBox.Text == null)
+                MessageBox.Show("Выберите существо!");
+            else 
             {
+                string[] CreaturesStrings = ListOfCreaturesComboBox.Text.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                List<ICard> cardsFromOneMove = new List<ICard>();
                 string cardName = "";
-                for (int i = 0; i < strings.Length - 1; i++)
+                for (int i = 0; i < CreaturesStrings.Length - 1; i++)
                 {
-                    if (strings[i] == "Name:")
-                        cardName = strings[i + 1];
+                    if (CreaturesStrings[i] == "Name:")
+                        cardName = CreaturesStrings[i + 1];
 
                 }
                 foreach (var card in presenter.GetListOfPlayersCardsInGame())
                     if (card.Name == cardName)
                         cardsFromOneMove.Add(card);
 
-
-                // сделать проверку есть ли вобще заклинания или нет
-                var dialogResult = MessageBox.Show(" Хотите добваить буст к вашему существу?", "Choise", MessageBoxButton.YesNo); // добваить 2 кнопки да/нет
-                if (dialogResult == MessageBoxResult.Yes)
+                if (ListOfSpellsComboBox.Text != null)
                 {
-                    TakeBoost = true;
-                }
-                else
-                {
-                    TakeBoost = false;
-                    List<ICard> cards = cardsFromOneMove;
-                    cardsFromOneMove.Clear();
-                    GameLogsTextBlock.Text = presenter.MakeAMove(cards);
-                   // Вызывать метод игра закончена
-                }
-            }
-                
-                if (TakeBoost == true)
-                {
-                    if (!ListOfCardsComboBox.Text.Contains("Creature"))
+                    string[] SpellsStrings = ListOfSpellsComboBox.Text.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    string cardName1 = "";
+                    for (int i = 0; i < SpellsStrings.Length - 1; i++)
                     {
-                        string cardName = "";
-                        for (int i = 0; i < strings.Length - 1; i++)
-                        {
-                            if (strings[i] == "Name:")
-                                cardName = strings[i + 1];
-
-                        }
-
-                        foreach (var card in cardsFromHand)
-                            if (card.Name == cardName)
-                                cardsFromOneMove.Add(card);
-
-                        TakeBoost = false;
-                        List<ICard> cards = cardsFromOneMove;
-                        cardsFromOneMove.Clear();
-                        GameLogsTextBlock.Text = presenter.MakeAMove(cards);
+                        if (SpellsStrings[i] == "Name:")
+                            cardName1 = SpellsStrings[i + 1];
 
                     }
+                    foreach (var card in presenter.GetListOfPlayersCardsInGame())
+                        if (card.Name == cardName)
+                            cardsFromOneMove.Add(card);
                 }
-              
+                  //  GameLogsTextBlock.Text += presenter.MakeAMove(cardsFromOneMove);
+                // Вызывать метод игра закончена
+              /*  if (presenter.IsGameOver())
+                {
+                    this.Close();
+                    MessageBox.Show(presenter.GameOverMessage());
+                    
+                }*/
+                }
             
             DrawHealthAndGamePoints();
             DrawDecks();
         }
 
-
-        private bool TakeBoost;
-        private List<ICard> cardsFromOneMove;
         private GameWindowPresenter presenter;
     }
 }

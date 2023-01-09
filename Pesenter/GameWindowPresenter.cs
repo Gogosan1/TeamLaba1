@@ -5,6 +5,7 @@ using Modlel.Cards;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows.Controls;
 
 namespace WpfApp1.Controller
 {
@@ -14,12 +15,6 @@ namespace WpfApp1.Controller
         public GameWindowPresenter(string nameOfPlayer)
         {
             game = new Game(nameOfPlayer);
-        }
-       public int GetHealth(string type) => game.GetHealth(type);
-
-        public string MakeAMove(List<ICard> cards)
-        {
-            return null; // game.CompleteRound(cards);
         }
 
         public List<string> DrawTheCreaturesDeck ()
@@ -73,6 +68,13 @@ namespace WpfApp1.Controller
 
             return cardsDescriptions;
         }
+        
+
+
+        //public string MakeAMove(List<ICard> cards) => game.CompleteRound(cards);
+       // public bool IsGameOver() => game.IsGameOver();
+       // public string GameOverMessage() => game.GameOverMessage();
+
 
         public int GetHealth(string type) => game.GetHealth(type);
         public int GetGamesRating(string type) => game.GetPointsPerGame(type);
@@ -80,6 +82,7 @@ namespace WpfApp1.Controller
         public bool IsPlayerByNickExist(string name) => game.IsPlayerExist(name);
         public List<Player> GetListOfPlayers() => game.GetListOfPlayers();
         public List<ICard> GetListOfPlayersCardsInGame() => game.GetListOfPlayersCardsInGame();
+
         private Game game;
     }
 }

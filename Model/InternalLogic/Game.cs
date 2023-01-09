@@ -10,11 +10,34 @@ namespace Model.InternalLogic
 {
     public class Game
     {
-        private DataManager dm;
-        private List<IPlayer> playersOfOneGame; // 2 players Player and Bot
-        private int CounterOfRounds;
-        private string gameStatus = "";
-        private bool PlayerWon = false;
+        // Прежде чем пытаться запустить проект, вставь папку Files в корень папки Debug
+        // Проект собирается, если не соберётся напиши мне, созвонимся в дс я покажу, что не так
+        // Когда сделаешь всю логику, нужно будет отладить. Чтобы проверить как все работает нужно будет раскомментировать
+        //код в 2 файлах, в GameWindowPresenter 3 метода, и в GameWindow.xaml.cs чуть-чуть строк кода 82 - 89 строки  
+
+
+        // В классе игра есть список игроков. В нём всегда только 2 игрока это бот и сам игрок.
+        // Поэтому при окончании игры нужно изменять глобальный рейтинг по имени игрока в списке из класса датаменеджера
+        // foreach( player in dm.AllPlayers)
+        //      if (player.name == имени игрока в игре)
+        //          изменить глобальный рейтинг игрока
+
+
+        // Логику можешь реализовывать как угодно, я тебе на вход в метод CompleteRound буду передавать список из одной или 2 карт
+        // На выходе из CompleteRound мне нужны только логи проведдённого раунда
+        //
+        // Не забывай: в конце каждого хода добирать столько карт на руку, сколько использовали во время игры,
+        // старые карты удалять, либо возвращать в список если их не добили
+        // 
+        // Еще мне нужны 2 метода.
+        //1) Один после каждого хода проверяет закончилась ли игра(тип bool), он мне должен возвращать истину или ложь.
+        //2) Второй возвратит логи окончания игры: а именно, почему закончилась игра, кто победил,
+        //на сколько рейтинг повышен или понижен, текущй рейтинг. Все это возвращать просто в строке.
+        //
+        // Рекомендуемые названия методов: 1)bool IsGameOver() 
+        //                                 2)string GameOverMessage() <- вернёт строку 
+        //Не глаголы конечно, но что есть
+
 
         public Game(string NameOfPlayer)
         {
@@ -47,7 +70,6 @@ namespace Model.InternalLogic
             }
 
         }
-
         public bool IsPlayerExist(string inputNickName)
         {
             bool IsOldPlayer = false;
@@ -61,9 +83,12 @@ namespace Model.InternalLogic
             }
             return IsOldPlayer;
         }
-
+      
+        
+        // Посмотри, тут надо немного изменений, если не понятно как, могу это сделать я.
         private List<ICard> DealCards ()
         {
+            // сделать проверку на наличие хотябы одного существа 
             List<ICard> cardsForOneGame = new List<ICard>();
             for (int i = 0; i < 6; i++)
             {
@@ -74,6 +99,7 @@ namespace Model.InternalLogic
             return cardsForOneGame;
         }
 
+        //Здесь вся логика игры написанная тобой, я откатил изменения и закомментировал не рабочий код.
         private ICard UseSpell(List<ICard> Cards, IPlayer playerOrBot)
         {
             if (typeof(ImprovesPowerSpell).IsInstanceOfType(Cards[1]))
@@ -113,7 +139,6 @@ namespace Model.InternalLogic
             else
                 return "карта соперника";
         }
-
         public string AnalyzeMove(ICard attackingCard, ICard defendingCard, IPlayerForAnalyzingMove attackingPlayer, IPlayerForAnalyzingMove defendingPlayer)
         {
             string info = "В этом сражении победила ";
@@ -180,6 +205,7 @@ namespace Model.InternalLogic
             return string.Empty;
         }
 
+        // Взаимодействие с формой происходит только здесь, поэтому  методы игры выше, в целом могут быть приватными
         public string CompleteRound(List<ICard> cards) // срабатывает при нажатии на кнопкку
         {
             string MessageLog = "";
@@ -278,7 +304,6 @@ namespace Model.InternalLogic
           }*/
 
         public List<Player> GetListOfPlayers() => dm.AllPlayers;
-
         public List<ICard> GetListOfPlayersCardsInGame()
         {
             foreach(var player in playersOfOneGame)
@@ -286,7 +311,9 @@ namespace Model.InternalLogic
                     return player.CardsInHands;
             return null;
         }
-
+     
+        
+        // эти методы тоже используются в форме, для рендерига, их менять не нужно
         public int GetHealth(string type)
         {
             foreach ( var player in playersOfOneGame)
@@ -298,7 +325,6 @@ namespace Model.InternalLogic
             }
             return 0;
         }
-
         public int GetPointsPerGame(string type)
         {
             foreach (var player in playersOfOneGame)
@@ -310,6 +336,13 @@ namespace Model.InternalLogic
             }
             return 0;
         }
+
+
+        private DataManager dm;
+        private List<IPlayer> playersOfOneGame; // 2 players Player and Bot
+        private int CounterOfRounds;
+        private string gameStatus = "";
+        private bool PlayerWon = false;
 
     }
 }
