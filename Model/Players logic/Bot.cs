@@ -9,7 +9,10 @@ namespace Model.Players_logic
 {
     public class Bot : IPlayer
     {
-        public List<ICard> CardsInHands { get; init; }
+        public List<ICard> CardsInHands { get; set; }
+        public bool IsAttack { get; set; }
+        public int GlobalRating { get; set; }
+
         private int health;
         private int pointsPerGame;
 
@@ -19,10 +22,7 @@ namespace Model.Players_logic
             pointsPerGame = 0;
             health = Constants.DEFAULT_HEALTH; 
         }
-
-        public Bot()
-        {
-        }
+        public Bot() { }
 
         public void AddPointsPerGame()
         {
@@ -79,6 +79,11 @@ namespace Model.Players_logic
             cardsFromMove.Add(cardFromMove);
 
             return cardsFromMove;
+        }
+
+        public ICard ChooseCardFromHand(List<ICard> cards)
+        {
+            throw new NotImplementedException();
         }
     }
 }

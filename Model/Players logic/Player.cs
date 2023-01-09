@@ -18,7 +18,7 @@ namespace Model.Players_logic
         [JsonIgnore]
         public bool IsAttack { get; set; }
         [JsonIgnore]
-        public List<ICard> CardsInHands { get; init; } // List of 8 cards or more
+        public List<ICard> CardsInHands { get; set; }
 
         private int health;
         private int pointsPerGame;
@@ -33,16 +33,8 @@ namespace Model.Players_logic
             health = Constants.DEFAULT_HEALTH;
             IsAttack = true;
         }
-
-        public Player (string nickName, List<ICard> cards, int globalRating)
-        {
-            NickName = nickName;
-            CardsInHands = cards;
-            pointsPerGame = 0;
-            GlobalRating = globalRating;
-            health = Constants.DEFAULT_HEALTH;
-            IsAttack = true;
-        }
+        public Player()
+        { }
         
         public void TakeTheCardInHands(ICard card) 
         {
@@ -54,7 +46,7 @@ namespace Model.Players_logic
         }
         public int GetPointsPerGame() => pointsPerGame;
 
-        public void AddHealth(ICard card)//передаем сюда spell
+        public void AddHealth(ICard card)
         {
             health += card.Power;
         }
@@ -63,5 +55,15 @@ namespace Model.Players_logic
             health -= card.Power;
         }
         public int GetHealth() => health;
+
+        public ICard ChooseCardFromHand(List<ICard> cards)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<ICard> PutCardFromHandOnTheTable()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

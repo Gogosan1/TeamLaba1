@@ -1,41 +1,51 @@
 ﻿using Modlel.Cards;
+using System.Text.Json.Serialization;
 
 namespace Model.Cards
 {
     public class ImprovesPowerSpell: ICard
     {
         public int Power { get; set; }
+        [JsonIgnore]
+        public int Health { get; set; }
         public string Name { get; init; }
-        //public Spell()
-        //{
-        //    this.Name = "";
-        //    Power = 0;
-        //}
-        public ImprovesPowerSpell(string name, int power)
+        
+        [JsonConstructor]
+        public ImprovesPowerSpell(string Name, int Power)
         {
-            this.Name = name;
-            this.Power = power;
+            this.Name = Name;
+            this.Power = Power;
+            Health = 0;
         }
     }
 
     public class ImprovesProtectionSpell : ICard
     {
         public string Name { get; init; }
+        [JsonIgnore]
+        public int Health { get; set; }
         public int Power { get; set; }
-        public ImprovesProtectionSpell(string name, int power)
+
+        [JsonConstructor]
+        public ImprovesProtectionSpell(string Name, int Power)
         {
-            this.Name = name;
-            this.Power = power;
+            this.Name = Name;
+            this.Power = Power;
+            Health = 0;
         }
     }
     public class HealsPlayerSpell : ICard
     {
         public string Name { get; init; }
+        [JsonIgnore]
+        public int Health { get; set; }
         public int Power { get; set; }
-        public HealsPlayerSpell(string name, int power)
+        [JsonConstructor]
+        public HealsPlayerSpell(string Name, int Power)
         {
-            this.Name = name;
-            this.Power = power;
+            this.Name = Name;
+            this.Power = Power;
+            Health = 0;
         }
     }
 

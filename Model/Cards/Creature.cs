@@ -1,23 +1,27 @@
 ﻿
 
+using System.Text.Json.Serialization;
+
 namespace Modlel.Cards
 {
-    public class Creature : ICreature, ICard
+    public class Creature : ICard
     {
         public string Name { get; init; }
         public int Health { get; set; }
         public int Power { get; set; }
+
         public Creature()
         {
             Name = "";
             Health = 0;
             Power = 0;
         }
-        public Creature(string name, int health, int power)
+        [JsonConstructor]
+        public Creature(string Name, int Health, int Power)
         {
-            Name = name;
-            Health = health;
-            Power = power;
+            this.Name = Name;
+            this.Health = Health;
+            this.Power = Power;
         }
     }
 }

@@ -42,7 +42,7 @@
             <ColumnDefinition Width="22*"/>
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
-        <Label Content="Ваш ход, выберите карту" HorizontalAlignment="Left" Margin="2,-4,0,0" VerticalAlignment="Top"/>
+        <Label Content="Выберите карту существа" HorizontalAlignment="Left" Margin="29,76,0,0" VerticalAlignment="Top"/>
         <Label x:Name="PlayersHealthLabel" Foreground="#97bea9" Content="Ваше здоровье: 0" HorizontalAlignment="Left" Margin="16,191,0,0" VerticalAlignment="Top"/>
         <Label x:Name="BotHealthLabel" Foreground="#97bea9" Content="Здоровье соперника: 0" HorizontalAlignment="Left" Margin="193,190,0,0" VerticalAlignment="Top"/>
         <Button x:Name="MakeAMoveButton" Style="{StaticResource Button}" Content="Выполнить ход" HorizontalAlignment="Left" Margin="21,279,0,0" VerticalAlignment="Top" Click="MakeAMoveButton_Click"/>
@@ -52,7 +52,9 @@
         <Button x:Name="EndGameButton" Style="{StaticResource Button}" Content="Закончить игру" HorizontalAlignment="Left" Margin="189,279,0,0" VerticalAlignment="Top"/>
         <Label x:Name="PlayersGamesRatingLabel" Foreground="#97bea9" Content="Ввши очки: 0" HorizontalAlignment="Left" Margin="15,227,0,0" VerticalAlignment="Top"/>
         <Label x:Name="BotsGamesRatingLabel" Foreground="#97bea9" Content="Очки соперника: 0" HorizontalAlignment="Left" Margin="192,226,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="ListOfCardsComboBox" HorizontalAlignment="Left" Margin="43,100,0,0" VerticalAlignment="Top" Width="311"/>
+        <ComboBox x:Name="ListOfCreaturesComboBox" HorizontalAlignment="Left" Margin="29,109,0,0" VerticalAlignment="Top" Width="311"/>
+        <ComboBox x:Name="ListOfSpellsComboBox" HorizontalAlignment="Left" Margin="347,109,0,0" VerticalAlignment="Top" Width="311"/>
+        <Label Content="Выберите карту заклинания по желанию" HorizontalAlignment="Left" Margin="341,74,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
