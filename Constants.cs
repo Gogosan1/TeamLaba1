@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LabaTeam1.Model.InternalLogic
+namespace WpfApp1
 {
     static class Constants
     {
@@ -16,5 +16,9 @@ namespace LabaTeam1.Model.InternalLogic
         public const string PLAYER_DIED = "the player died";
         public const string BOT_DIED = "the bot died";
         public const string GAME_OVER = "game over";
+        public const string BOT_TYPE = "Bot";
+        public const string PLAYER_TYPE = "Player";
+        public const string CARD_NAME = "Имя";
+
     }
 }

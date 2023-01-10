@@ -1,13 +1,14 @@
-﻿using LabaTeam1.Model.InternalLogic;
+﻿
 using Model.Cards;
 using Modlel.Cards;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using WpfApp1;
 
 namespace Model.Players_logic
 {
-    public class Bot : IPlayer, IAddHealth, IPlayerForAnalyzingMove, IGetPointsPerGame
+    public class Bot : IPlayer
     {
         public List<ICard> CardsInHands { get; set; }
         public bool IsAttack { get; set; }

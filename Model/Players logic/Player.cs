@@ -1,14 +1,15 @@
-using LabaTeam1.Model.InternalLogic;
+
 using Model.Cards;
 using Modlel.Cards;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text.Json.Serialization;
-
+using WpfApp1;
 namespace Model.Players_logic
+    //я хочу умереть
 {
-    public class Player : IPlayer, IAddHealth, IisAttack, IPlayerForAnalyzingMove, IPlayerForFinishingGame, IGetPointsPerGame
+    public class Player : IPlayer
     {
         [JsonInclude]
         public int GlobalRating { get; set; }
