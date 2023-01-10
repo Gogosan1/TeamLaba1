@@ -48,6 +48,4 @@ namespace Model.Cards
             Health = 0;
         }
     }
-
-
 }

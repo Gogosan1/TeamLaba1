@@ -8,9 +8,6 @@ using WpfApp1.View;
 
 namespace WpfApp1
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MenuWindow : Window
     {
         public MenuWindow(GameWindowPresenter presenter)
@@ -29,9 +26,7 @@ namespace WpfApp1
         {
            var sr = new StreamReader("Files/Rules.txt", Encoding.Default);
            
-           MessageBox.Show(sr.ReadToEnd());
-            
-            
+           MessageBox.Show(sr.ReadToEnd());                       
         }
 
         private void RatingLoadButton_Click(object sender, RoutedEventArgs e)

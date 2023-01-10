@@ -26,7 +26,7 @@ namespace Model.Players_logic
 
         public void AddPointsPerGame()
         {
-            pointsPerGame += Constants.POINTS_FOR_WINNING;
+            pointsPerGame += Constants.POINTS_FOR_WINNING_ROUD;
         }
         public int GetPointsPerGame() => pointsPerGame;
         public void AddHealth(ICard card)
@@ -65,7 +65,6 @@ namespace Model.Players_logic
             Random random = new Random();
             int value = random.Next(0, 1);
 
-            // вынести из класса
             if (value == 1)
                 while (true)
                 {
@@ -79,8 +78,6 @@ namespace Model.Players_logic
             cardsFromMove.Add(cardFromMove);
 
             return cardsFromMove;
-        }
-
-        
+        }        
     }
 }
