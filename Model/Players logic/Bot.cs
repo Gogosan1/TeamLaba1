@@ -1,4 +1,5 @@
-﻿using Model.Cards;
+﻿
+using Model.Cards;
 using Modlel.Cards;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,10 @@ namespace Model.Players_logic
         }
         public Bot() { }
 
+        public void TakeTheCardInHands(ICard card)
+        {
+            CardsInHands.Add(card);
+        }
         public void AddPointsPerGame()
         {
             pointsPerGame += Constants.POINTS_FOR_WINNING;
