@@ -56,14 +56,6 @@ namespace Model.Players_logic
         }
         public int GetHealth() => health;
 
-        public ICard ChooseCardFromHand(List<ICard> cards)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<ICard> PutCardFromHandOnTheTable()
-        {
-            throw new NotImplementedException();
-        }
+      
     }
 }

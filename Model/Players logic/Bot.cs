@@ -81,9 +81,6 @@ namespace Model.Players_logic
             return cardsFromMove;
         }
 
-        public ICard ChooseCardFromHand(List<ICard> cards)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }
