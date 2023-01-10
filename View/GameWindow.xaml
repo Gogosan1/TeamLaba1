@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.View"
         mc:Ignorable="d"
-        Title="Window3" Height="442" Width="743">
+        Title="Window3" Height="442" Width="768">
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="Black"/>
@@ -48,7 +48,7 @@
         <Button x:Name="MakeAMoveButton" Style="{StaticResource Button}" Content="Выполнить ход" HorizontalAlignment="Left" Margin="21,279,0,0" VerticalAlignment="Top" Click="MakeAMoveButton_Click"/>
         <TextBlock x:Name="GameLogsTextBlock" Foreground="#97bea9"
                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                 ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" Margin="366,179,0,0" TextWrapping="Wrap" Text="Тут пишутся логи( ходы во время игры)" VerticalAlignment="Top" Height="220" Width="414"/>
+                 ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" Margin="366,179,0,0" TextWrapping="Wrap" Text="Тут пишутся логи( ходы во время игры)" VerticalAlignment="Top" Height="220" Width="389" Grid.ColumnSpan="2"/>
         <Button x:Name="EndGameButton" Style="{StaticResource Button}" Content="Закончить игру" HorizontalAlignment="Left" Margin="189,279,0,0" VerticalAlignment="Top"/>
         <Label x:Name="PlayersGamesRatingLabel" Foreground="#97bea9" Content="Ваши очки: 0" HorizontalAlignment="Left" Margin="15,227,0,0" VerticalAlignment="Top"/>
         <Label x:Name="BotsGamesRatingLabel" Foreground="#97bea9" Content="Очки соперника: 0" HorizontalAlignment="Left" Margin="192,226,0,0" VerticalAlignment="Top"/>

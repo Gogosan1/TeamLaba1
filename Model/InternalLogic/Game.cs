@@ -5,6 +5,7 @@ using Modlel.Cards;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Windows.Controls;
 using WpfApp1;
 
 namespace Model.InternalLogic
@@ -77,10 +78,8 @@ namespace Model.InternalLogic
 
         }      
         
-        // Посмотри, тут надо немного изменений, если не понятно как, могу это сделать я.
         private List<ICard> DealCards ()
         {
-            // сделать проверку на наличие хотябы одного существа 
             List<ICard> cardsForOneGame = new List<ICard>();
 
             int creaturesCount = 0;
@@ -175,7 +174,7 @@ namespace Model.InternalLogic
             }
             return info;
         }
-        private void FinishGame(string whyFinishGame, IPlayerForFinishingGame player, IGetPointsPerGame bot)
+        private void FinishGame(string whyFinishGame, Player player, IGetPointsPerGame bot)
         {
             IsGameOver = true;
 
@@ -215,6 +214,7 @@ namespace Model.InternalLogic
         }
         public string FinishGameInfo()
         {
+
             if (gameStatus == Constants.GAME_OVER && PlayerWon == true)
                 return $"Вы выиграли !! Теперь ваш рейтинг повысился";
             else if (gameStatus == Constants.GAME_OVER && PlayerWon == false)
@@ -223,10 +223,10 @@ namespace Model.InternalLogic
         }
 
         // Взаимодействие с формой происходит только здесь, поэтому  методы игры выше, в целом могут быть приватными
-        public string CompleteRound(List<ICard> cards) // срабатывает при нажатии на кнопкку
+        public string CompleteRound(List<ICard> playerCards) // срабатывает при нажатии на кнопкку
         {
             string MessageLog = "";
-            List<ICard> playerCards = cards;
+            //List<ICard> playerCards = playerCards;
             List<ICard> botCards = new List<ICard>();
             Bot bot = new Bot();
             Player player = new Player();
@@ -273,16 +273,79 @@ namespace Model.InternalLogic
             CounterOfRounds++;
 
             if (CounterOfRounds == Constants.ROUNDS_MAX_COUNT)
-                FinishGame(Constants.ROUNDS_NUM_ENDED, (IPlayerForFinishingGame)player, bot);
-            else if (player.GetHealth() == 0)
-                FinishGame(Constants.PLAYER_DIED, (IPlayerForFinishingGame)player, bot);
-            else if (bot.GetHealth() == 0)
-                FinishGame(Constants.BOT_DIED, (IPlayerForFinishingGame)player, bot);
+                FinishGame(Constants.ROUNDS_NUM_ENDED, player, bot);
+            else if (player.GetHealth() <= 0)
+                FinishGame(Constants.PLAYER_DIED, player, bot);
+            else if (bot.GetHealth() <= 0)
+                FinishGame(Constants.BOT_DIED, player, bot);
+
+            DeletePlayersCardFromTheDeck(playerCards);
+            AddCardsToThePlayersDeck(playerCards.Count);
+            // здесь нужно обращатся к методам удаления и раздачи карт
 
             return MessageLog;
         }
 
+        private void DeletePlayersCardFromTheDeck(List<ICard> cards)
+        {
+            foreach (var player in playersOfOneGame)
+                if (typeof(Player).IsInstanceOfType(player))
+                    foreach (var takedCards in cards)
+                        for (int i = 0; i < player.CardsInHands.Count; i++)
+                            if (String.Equals(player.CardsInHands[i].Name, takedCards.Name))
+                            {
+                                player.CardsInHands.Remove(player.CardsInHands[i]);
+                                i--;
+                            }
+        }
+
+        // вынести проверку на тип в отдельный метод
+        private void AddCardsToThePlayersDeck(int countOfRemovedCards)
+        {
+            int countOfCreatures = 0;
+            int countOfAddedCards = 0;
+            foreach (var player in playersOfOneGame)
+                if (typeof(Player).IsInstanceOfType(player))
+                {
+                    foreach (var card in player.CardsInHands)
+                    {
+                        if (typeof(Creature).IsInstanceOfType(card))
+                            countOfCreatures++;
+                    }
+
+                    if (countOfCreatures == 0)
+                    {
+                        while (true)
+                        {
+                            var newCard = ChooseTheNewCardFromAllCardsOfGame();
+                            if (typeof(Creature).IsInstanceOfType(newCard))
+                            {
+                                player.CardsInHands.Add(newCard);
+                                countOfAddedCards++;
+                                break;
+                            }
+                        }
+
+                    }
+
+                    while (countOfRemovedCards != countOfAddedCards)
+                    {
+                        var newCard1 = ChooseTheNewCardFromAllCardsOfGame();
+                        player.CardsInHands.Add(newCard1);
+                        countOfAddedCards++;
+                    }
+                }
+        }
+
+        private ICard ChooseTheNewCardFromAllCardsOfGame()
+        {
+            Random random = new Random();
+            int index = random.Next(dm.AllCards.Count);
+            var newCard = dm.AllCards[index];
+            return newCard;
+        }
         public List<Player> GetListOfPlayers() => dm.AllPlayers;
+       
         public List<ICard> GetListOfPlayersCardsInGame()
         {
             foreach(var player in playersOfOneGame)

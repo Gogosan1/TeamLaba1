@@ -56,21 +56,21 @@ namespace WpfApp1.Controller
                 {
                     if (typeof(ImprovesPowerSpell).IsInstanceOfType(card))
                     {
-                        cardDescription = "Улучшающее здоровье существа заклинание:\n";
+                        cardDescription = " Улучшающее силу заклинание:\n";
                     }
                     else
                     {
                         if (typeof(ImprovesProtectionSpell).IsInstanceOfType(card))
-                            cardDescription = "Улучшающее силу заклинание:\n";
+                            cardDescription = "Улучшающее здоровье существа заклинание:\n";
                     }
-
+                }
                     if (!typeof(Creature).IsInstanceOfType(card))
                     {
                         cardDescription += $"Имя: {card.Name}\n";
                         cardDescription += $"Сила: {card.Power.ToString()}";
                         cardsDescriptions.Add(cardDescription);
                     }
-                }
+                
             }
             return cardsDescriptions;
         }

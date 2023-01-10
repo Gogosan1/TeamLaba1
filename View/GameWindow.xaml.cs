@@ -88,7 +88,7 @@ namespace WpfApp1.View
                 // Вызывать метод игра закончена
                 if (presenter.IsGameOver())
                 {
-                    //this.Close();
+                    this.Close();
                     MessageBox.Show(presenter.GameOverMessage());
                     
                 }
