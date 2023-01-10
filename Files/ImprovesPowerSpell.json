@@ -1,0 +1,50 @@
+[
+  {
+    "Name": "Katana",
+    "Power": 15
+  },
+  {
+    "Name": "Smoke Bomb",
+    "Power": 7
+  },
+  {
+    "Name": "Nunchaku",
+    "Power": 15
+  },
+  {
+    "Name": "Sai",
+    "Power": 15
+  },
+  {
+    "Name": "Kusarigama",
+    "Power": 10
+  },
+  {
+    "Name": "Tonfa",
+    "Power": 10
+  },
+  {
+    "Name": "Bo",
+    "Power": 15
+  },
+  {
+    "Name": "Kogatana",
+    "Power": 8
+  },
+  {
+    "Name": "Naginata",
+    "Power": 10
+  },
+  {
+    "Name": "Yari",
+    "Power": 10
+  },
+  {
+    "Name": "Shuriken",
+    "Power": 7
+  },
+  {
+    "Name": "Kusari-fundo",
+    "Power": 12
+  }
+]

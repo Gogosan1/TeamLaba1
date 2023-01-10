@@ -9,7 +9,10 @@ namespace Model.Players_logic
 {
     public class Bot : IPlayer, IAddHealth, IPlayerForAnalyzingMove, IGetPointsPerGame
     {
-        public List<ICard> CardsInHands { get; init; }
+        public List<ICard> CardsInHands { get; set; }
+        public bool IsAttack { get; set; }
+        public int GlobalRating { get; set; }
+
         private int health;
         private int pointsPerGame;
 
@@ -19,10 +22,7 @@ namespace Model.Players_logic
             pointsPerGame = 0;
             health = Constants.DEFAULT_HEALTH; 
         }
-
-        public Bot()
-        {
-        }
+        public Bot() { }
 
         public void TakeTheCardInHands(ICard card)
         {
@@ -43,7 +43,7 @@ namespace Model.Players_logic
         }
         public int GetHealth() => health;
 
-        public ICard ChooseCardFromHand()
+        private ICard ChooseCardFromHand()
         {
             Random random = new Random();
             int index = random.Next(CardsInHands.Count);
@@ -59,7 +59,7 @@ namespace Model.Players_logic
             while (true)
             {
                 cardFromMove = (ChooseCardFromHand());
-                if (typeof(Creature).IsInstanceOfType(cardFromMove) || (typeof(HealsPlayerSpell).IsInstanceOfType(cardFromMove)))
+                if (typeof(Creature).IsInstanceOfType(cardFromMove))
                     break;
             }
             
@@ -68,15 +68,15 @@ namespace Model.Players_logic
 
             Random random = new Random();
             int value = random.Next(0, 1);
-            // реализовать проверку остались ли в колоде карты заклинаний
-            
 
             // вынести из класса
             if (value == 1)
                 while (true)
                 {
                     cardFromMove = (ChooseCardFromHand());
-                    if (typeof(ImprovesPowerSpell).IsInstanceOfType(cardFromMove) || typeof(ImprovesProtectionSpell).IsInstanceOfType(cardFromMove))
+                    if (typeof(ImprovesPowerSpell).IsInstanceOfType(cardFromMove) || 
+                        typeof(ImprovesProtectionSpell).IsInstanceOfType(cardFromMove) || 
+                        (typeof(HealsPlayerSpell).IsInstanceOfType(cardFromMove)))
                         break;
                 }
             CardsInHands.Remove(cardFromMove);
@@ -84,5 +84,7 @@ namespace Model.Players_logic
 
             return cardsFromMove;
         }
+
+        
     }
 }

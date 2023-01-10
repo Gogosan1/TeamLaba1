@@ -1,20 +1,7 @@
-﻿using LabaTeam1.Model.InternalLogic;
-using Model.InternalLogic;
 using Model.Players_logic;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using WpfApp1.Controller;
 
 namespace WpfApp1.View
@@ -23,27 +10,23 @@ namespace WpfApp1.View
     /// Логика взаимодействия для RatingWindow.xaml
     /// </summary>
 
-    public class TestData
+    public partial class RatingWindow : Window
     {
-        public string ModelName { get; set; }
-        public string UnitCost { get; set; }
-    }
-        public partial class RatingWindow : Window
-    {
-        public RatingWindow(GameWindowController controller)
+        public RatingWindow(GameWindowPresenter controller)
         {
-            PlayersDataGrid = new DataGrid();
-            ObservableCollection<Player> players = controller.GetListOfPlayers();
-            PlayersDataGrid.ItemsSource = players;
-            
-            
-
             InitializeComponent();
-        }
+            //PlayersDataGrid = new DataGrid();
+            List<Player> players = controller.GetListOfPlayers();
+            DataTable table = new DataTable();
+            table.Columns.Add("Имя");
+            table.Columns.Add("Рейтинг");
+            foreach(Player player in players)
+            {
+                table.Rows.Add(new object[] {player.NickName, player.GlobalRating.ToString()});
+            }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
+            PlayersDataGrid.ItemsSource = table.DefaultView;
+            
         }
     }
 }

@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using WpfApp1.Controller;
 using WpfApp1;
 
@@ -24,24 +12,25 @@ namespace WpfApp2
     {
         public MainWindow()
         {
-            controller = new GameWindowController();
             InitializeComponent();
         }
 
         private void LetsGoButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!String.IsNullOrWhiteSpace(PlayerNickTextBox.Text))
+            if (!String.IsNullOrWhiteSpace(NickTextBox.Text))
             {
-                if (controller.IsPlayerByNickExist(PlayerNickTextBox.Text))
-                    MessageBox.Show("С возвращением");
-                else
-                    MessageBox.Show("Добро пожаловать! Рады новым пользователям.");
-                var form = new MenuWindow(controller);
+                presenter = new GameWindowPresenter(NickTextBox.Text);
+                
+                    MessageBox.Show("Добро пожаловать!");
+
+                var form = new MenuWindow(presenter);
+                this.Close();
                 form.ShowDialog();
             }
             else
                 MessageBox.Show("Значение имени не может быть пустым.");
         }
-        private GameWindowController controller;
+        private GameWindowPresenter presenter;
+
     }
 }

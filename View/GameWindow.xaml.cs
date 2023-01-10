@@ -1,20 +1,9 @@
-﻿using Model.Cards;
+using Model.Cards;
 using Modlel.Cards;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Automation.Provider;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using WpfApp1.Controller;
 
 namespace WpfApp1.View
@@ -24,124 +13,93 @@ namespace WpfApp1.View
     /// </summary>
     public partial class GameWindow : Window
     {
-        public GameWindow(GameWindowController controller1)
+        public GameWindow(GameWindowPresenter pres)
         {
-            ListOfCardsComboBox = new ComboBox();
-            controller = controller1;
-    
-            cardsFromOneMove = new List<ICard>(); 
-            cardsFromHand = controller.CardsOfPlayer();
+            presenter = pres;
+            InitializeComponent();
+            DrawDecks();
+            DrawHealthAndGamePoints();
+        }
+
+        private void DrawDecks()
+        {
+            ListOfCreaturesComboBox.Items.Clear();
+            ListOfSpellsComboBox.Items.Clear();
             List<string> cardsDescriptions = new List<string>();
 
-            foreach(var card in cardsFromHand)
-            {
+            cardsDescriptions = presenter.DrawTheCreaturesDeck();
+            foreach (var cardsDescription in cardsDescriptions)
+                ListOfCreaturesComboBox.Items.Add(cardsDescription);
 
-                if(typeof(Creature).IsInstanceOfType(card))
-                {
-                    Creature creature = (Creature)card;
-                    string cardDescription = "Creature ";
-                    cardDescription += $"Name: {creature.Name} ";
-                    cardDescription += $"Health: {creature.Health.ToString()} ";
-                    cardDescription += $"Power: {creature.Power.ToString()} ";
-                    cardsDescriptions.Add(cardDescription);
-                }
-                else
-                {
-                    string cardDescription;
-                    if (typeof(HealsPlayerSpell).IsInstanceOfType(card))
-                    {
-                        cardDescription = "HealsPlayerSpell ";
-                    }
-                    else
-                    {
-                        if (typeof(ImprovesPowerSpell).IsInstanceOfType(card))
-                        {
-                            cardDescription = "ImprovesPowerSpell ";
-                        }
-                        else
-                            cardDescription = "ImprovesProtectionSpell ";
-                    }
-                    cardDescription += $"Name: {card.Name} ";
-                    cardDescription += $"Power: {card.Power.ToString()} ";
-                    cardsDescriptions.Add(cardDescription);
-                }
+            cardsDescriptions = presenter.DrawTheSpellsDeck();
+            foreach (var cardsDescription in cardsDescriptions)
+                ListOfSpellsComboBox.Items.Add(cardsDescription);
 
-            }
-            ListOfCardsComboBox.Items.Add(cardsDescriptions);
-            InitializeComponent();
+        }
+
+        private void DrawHealthAndGamePoints()
+        {
+            PlayersHealthLabel.Content = "Ваше здоровье: " + presenter.GetHealth("Player");
+            BotHealthLabel.Content = "Здоровье соперника: " +presenter.GetHealth("Bot");
+            
+            PlayersGamesRatingLabel.Content = "Ваши очки: " + presenter.GetGamesRatingPerGame("Player");
+            BotsGamesRatingLabel.Content = "Очки соперника: " + presenter.GetGamesRatingPerGame("Bot");
         }
 
 
         private void MakeAMoveButton_Click(object sender, RoutedEventArgs e)
         {
-            string[] strings = ListOfCardsComboBox.Text.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-
-            if (ListOfCardsComboBox.Text.Contains("Creature") && cardsFromOneMove.Count == 0)
+            
+            if (ListOfCreaturesComboBox.Text == "")
+                MessageBox.Show("Выберите существо!");
+            else 
             {
-                string cardName = "";
-                for (int i = 0; i < strings.Length - 1; i++)
+                string[] CreaturesStrings = ListOfCreaturesComboBox.Text.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                List<ICard> cardsFromOneMove = new List<ICard>();
+                string CreatureCardName = "";
+                for (int i = 0; i < CreaturesStrings.Length - 1; i++)
                 {
-                    if (strings[i] == "Name:")
-                        cardName = strings[i + 1];
+                    if (CreaturesStrings[i].Contains(Constants.CARD_NAME))
+                        CreatureCardName = CreaturesStrings[i].Substring(5);
 
                 }
-                foreach (var card in cardsFromHand)
-                    if (card.Name == cardName)
+                foreach (var card in presenter.GetListOfPlayersCardsInGame())
+                    if (card.Name == CreatureCardName)
                         cardsFromOneMove.Add(card);
 
+                if (ListOfSpellsComboBox.Text != "")
+                {
+                    string[] SpellsStrings = ListOfSpellsComboBox.Text.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                    string SpellCardName = "";
 
-                // сделать проверку есть ли вобще заклинания или нет
-                var dialogResult = MessageBox.Show(" Хотите добваить буст к вашему существу?", "Choise", MessageBoxButton.YesNo); // добваить 2 кнопки да/нет
-                if (dialogResult == MessageBoxResult.Yes)
-                {
-                    TakeBoost = true;
-                }
-                else
-                {
-                    TakeBoost = false;
-                    List<ICard> cards = cardsFromOneMove;
-                    cardsFromOneMove.Clear();
-                    GameLogsTextBlock.Text = controller.MakeAMove(cards);
-                   // Вызывать метод игра закончена
-                }
-            }
-                
-                if (TakeBoost == true)
-                {
-                    if (!ListOfCardsComboBox.Text.Contains("Creature"))
+                    for (int i = 0; i < SpellsStrings.Length - 1; i++)
                     {
-                        string cardName = "";
-                        for (int i = 0; i < strings.Length - 1; i++)
-                        {
-                            if (strings[i] == "Name:")
-                                cardName = strings[i + 1];
-
-                        }
-
-                        foreach (var card in cardsFromHand)
-                            if (card.Name == cardName)
-                                cardsFromOneMove.Add(card);
-
-                        TakeBoost = false;
-                        List<ICard> cards = cardsFromOneMove;
-                        cardsFromOneMove.Clear();
-                        GameLogsTextBlock.Text = controller.MakeAMove(cards);
+                        if (SpellsStrings[i].Contains(Constants.CARD_NAME))
+                            SpellCardName = SpellsStrings[i].Substring(5);
 
                     }
+
+                    foreach (var card in presenter.GetListOfPlayersCardsInGame())
+                        if (card.Name == SpellCardName)
+                            cardsFromOneMove.Add(card);
                 }
-              
-            
-            PlayersHealthLabel.Content = controller.GetHealth("Player");
-            BotHealthLabel.Content = controller.GetHealth("Bot");
-          //  Пергамес притягивать а не гаме ратинг
-            PlayersGamesRatingLabel.Content = controller.GetGamesRating("Player");
-            BotsGamesRatingLabel.Content = controller.GetGamesRating("Bot");
+
+                  GameLogsTextBlock.Text = presenter.MakeAMove(cardsFromOneMove);
+                // Вызывать метод игра закончена
+                if (presenter.IsGameOver())
+                {
+                    this.Close();
+                    MessageBox.Show(presenter.GameOverMessage());
+                    
+                }
+                ListOfCreaturesComboBox.SelectedIndex = -1;
+                ListOfSpellsComboBox.SelectedIndex = -1;
+                DrawHealthAndGamePoints();
+                DrawDecks();
+            }
+           
         }
 
-
-        private bool TakeBoost;
-        private List<ICard> cardsFromOneMove;
-        private List<ICard> cardsFromHand;
-        private GameWindowController controller;
+        private GameWindowPresenter presenter;
     }
 }

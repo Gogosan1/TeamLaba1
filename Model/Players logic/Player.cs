@@ -1,4 +1,4 @@
-﻿using LabaTeam1.Model.InternalLogic;
+using LabaTeam1.Model.InternalLogic;
 using Model.Cards;
 using Modlel.Cards;
 using System;
@@ -14,26 +14,27 @@ namespace Model.Players_logic
         public int GlobalRating { get; set; }
         [JsonInclude]
         public string NickName { get; init; }
-  
-        public bool IsAttack { get; set; } 
-        public List<ICard> CardsInHands { get; init; }
+
+        [JsonIgnore]
+        public bool IsAttack { get; set; }
+        [JsonIgnore]
+        public List<ICard> CardsInHands { get; set; }
 
         private int health;
         private int pointsPerGame;
 
-        public Player()
+        [JsonConstructor]
+        public Player(int GlobalRating, string NickName)
         {
-        }
-
-        public Player (string nickName, List<ICard> cards, int globalRating)
-        {
-            NickName = nickName;
-            CardsInHands = cards;
+            this.NickName = NickName;
+            CardsInHands = new List<ICard>();
             pointsPerGame = 0;
-            GlobalRating = globalRating;
+            this.GlobalRating = GlobalRating;
             health = Constants.DEFAULT_HEALTH;
             IsAttack = true;
         }
+        public Player()
+        { }
         
         public void TakeTheCardInHands(ICard card) 
         {
@@ -54,5 +55,7 @@ namespace Model.Players_logic
             health -= card.Power;
         }
         public int GetHealth() => health;
+
+      
     }
 }
