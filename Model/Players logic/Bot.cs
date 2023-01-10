@@ -39,7 +39,7 @@ namespace Model.Players_logic
         }
         public int GetHealth() => health;
 
-        public ICard ChooseCardFromHand()
+        private ICard ChooseCardFromHand()
         {
             Random random = new Random();
             int index = random.Next(CardsInHands.Count);
@@ -55,7 +55,7 @@ namespace Model.Players_logic
             while (true)
             {
                 cardFromMove = (ChooseCardFromHand());
-                if (typeof(Creature).IsInstanceOfType(cardFromMove) || (typeof(HealsPlayerSpell).IsInstanceOfType(cardFromMove)))
+                if (typeof(Creature).IsInstanceOfType(cardFromMove))
                     break;
             }
             
@@ -64,15 +64,15 @@ namespace Model.Players_logic
 
             Random random = new Random();
             int value = random.Next(0, 1);
-            // реализовать проверку остались ли в колоде карты заклинаний
-            
 
             // вынести из класса
             if (value == 1)
                 while (true)
                 {
                     cardFromMove = (ChooseCardFromHand());
-                    if (typeof(ImprovesPowerSpell).IsInstanceOfType(cardFromMove) || typeof(ImprovesProtectionSpell).IsInstanceOfType(cardFromMove))
+                    if (typeof(ImprovesPowerSpell).IsInstanceOfType(cardFromMove) || 
+                        typeof(ImprovesProtectionSpell).IsInstanceOfType(cardFromMove) || 
+                        (typeof(HealsPlayerSpell).IsInstanceOfType(cardFromMove)))
                         break;
                 }
             CardsInHands.Remove(cardFromMove);

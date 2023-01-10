@@ -7,11 +7,11 @@ using Modlel.Cards;
 
 namespace LabaCreatedWithTeamWork.Players_logic
 {
-   /* public interface IPlayer : ICardsInHands, IPlayerForAnalyzingMove, IPlayerForFinishGame
-    {
-        public string NickName { get; init; }
-    }
-*/
+    /* public interface IPlayer : ICardsInHands, IPlayerForAnalyzingMove, IPlayerForFinishGame
+     {
+         public string NickName { get; init; }
+     }
+ */
     public interface IPlayerForAnalyzingMove : IAddHealth, IPutCardFromHandOnTheTable
     {
         public bool IsAttack { get; set; }
@@ -47,29 +47,30 @@ namespace LabaCreatedWithTeamWork.Players_logic
     {
         public List<ICard> PutCardFromHandOnTheTable();
     }
-    
-      /*  public interface IPlayer : IGetPointsPerGame
-        {
-            public List<ICard> CardsInHands { get; init; }
-            public void TakeTheCardInHands(ICard card);
-            int GetHealth();
-        }
 
-        public interface IAddHealth
-        {
-            void AddHealth(ICard card);
-        }
+    /*  public interface IPlayer : IGetPointsPerGame
+      {
+          public List<ICard> CardsInHands { get; init; }
+          public void TakeTheCardInHands(ICard card);
+          int GetHealth();
+      }
+
+      public interface IAddHealth
+      {
+          void AddHealth(ICard card);
+      }
 */
-        public interface IisAttack
-        {
-            bool IsAttack { get; set; }
-        }
-        public interface IPlayerForFinishingGame : IGetPointsPerGame
-        {
-            int GlobalRating { get; set; }
-        }
-        public interface IGetPointsPerGame
-        {
-            int GetPointsPerGame();
-        }
+    public interface IisAttack
+    {
+        bool IsAttack { get; set; }
     }
+    public interface IPlayerForFinishingGame : IGetPointsPerGame
+    {
+        int GlobalRating { get; set; }
+        public string NickName { get; init; }
+    }
+    public interface IGetPointsPerGame
+    {
+        int GetPointsPerGame();
+    }
+}

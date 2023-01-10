@@ -4,6 +4,7 @@ using Model.Players_logic;
 using Modlel.Cards;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using WpfApp1;
 
 namespace Model.InternalLogic
@@ -45,6 +46,8 @@ namespace Model.InternalLogic
             playersOfOneGame = new List<IPlayer>();
             AddPlayersForGame(NameOfPlayer);
             CounterOfRounds = 0;
+            PlayerWon = false;
+            IsGameOver = false;
         }
 
         public void AddPlayersForGame(string name) 
@@ -72,31 +75,32 @@ namespace Model.InternalLogic
                 dm.AddPlayer(player);
             }
 
-        }
-      /*  public bool IsPlayerExist(string inputNickName)
-        {
-            bool IsOldPlayer = false;
-            foreach (Player p in dm.AllPlayers)
-            {
-                if (String.Equals(p.NickName,inputNickName))
-                {
-                    IsOldPlayer = true;
-                    break;
-                }
-            }
-            return IsOldPlayer;
-        }*/
-      
+        }      
         
         // Посмотри, тут надо немного изменений, если не понятно как, могу это сделать я.
         private List<ICard> DealCards ()
         {
             // сделать проверку на наличие хотябы одного существа 
             List<ICard> cardsForOneGame = new List<ICard>();
+
+            int creaturesCount = 0;
             for (int i = 0; i < 6; i++)
             {
                 Random rand = new Random();
+
                 int index = rand.Next(dm.AllCards.Count);
+
+                if (typeof(Creature).IsInstanceOfType(dm.AllCards[index]))
+                    creaturesCount++;
+
+                if( i == 5 && creaturesCount == 0)
+                    while (true)
+                    {
+                        index = rand.Next(dm.AllCards.Count);
+                        if (typeof(Creature).IsInstanceOfType(dm.AllCards[index]))
+                            break;
+                    }
+
                 cardsForOneGame.Add(dm.AllCards[index]);
             }
             return cardsForOneGame;
@@ -142,7 +146,7 @@ namespace Model.InternalLogic
             else
                 return "карта соперника";
         }
-        public string AnalyzeMove(ICard attackingCard, ICard defendingCard, IPlayerForAnalyzingMove attackingPlayer, IPlayerForAnalyzingMove defendingPlayer)
+        private string AnalyzeMove(ICard attackingCard, ICard defendingCard, IPlayerForAnalyzingMove attackingPlayer, IPlayerForAnalyzingMove defendingPlayer)
         {
             string info = "В этом сражении победила ";
             bool DamageIsMoreHealth = attackingCard.Power > (defendingCard).Health;
@@ -173,6 +177,8 @@ namespace Model.InternalLogic
         }
         private void FinishGame(string whyFinishGame, IPlayerForFinishingGame player, IGetPointsPerGame bot)
         {
+            IsGameOver = true;
+
             if (whyFinishGame == Constants.ROUNDS_NUM_ENDED)
             {
                 if (player.GetPointsPerGame() > bot.GetPointsPerGame())
@@ -192,14 +198,22 @@ namespace Model.InternalLogic
 
             if (PlayerWon == true)
             {
-                player.GlobalRating += player.GetPointsPerGame();
+                foreach (var p in dm.AllPlayers)
+                {
+                    if (p.NickName == player.NickName)
+                        p.GlobalRating += player.GetPointsPerGame();
+                }
             }
             else
             {
-                player.GlobalRating -= Constants.LOSS_OF_POINTS;
+                foreach (var p in dm.AllPlayers)
+                {
+                    if (p.NickName == player.NickName)
+                        player.GlobalRating -= Constants.LOSS_OF_POINTS;
+                }
             }
         }
-        public string FinishGameCheck()
+        public string FinishGameInfo()
         {
             if (gameStatus == Constants.GAME_OVER && PlayerWon == true)
                 return $"Вы выиграли !! Теперь ваш рейтинг повысился";
@@ -258,53 +272,15 @@ namespace Model.InternalLogic
 
             CounterOfRounds++;
 
-        /*    if (CounterOfRounds == Constants.ROUNDS_MAX_COUNT)
-                FinishGame(Constants.ROUNDS_NUM_ENDED, player, bot);
+            if (CounterOfRounds == Constants.ROUNDS_MAX_COUNT)
+                FinishGame(Constants.ROUNDS_NUM_ENDED, (IPlayerForFinishingGame)player, bot);
             else if (player.GetHealth() == 0)
-                FinishGame(Constants.PLAYER_DIED, player, bot);
+                FinishGame(Constants.PLAYER_DIED, (IPlayerForFinishingGame)player, bot);
             else if (bot.GetHealth() == 0)
-                FinishGame(Constants.BOT_DIED, player, bot);
-*/
+                FinishGame(Constants.BOT_DIED, (IPlayerForFinishingGame)player, bot);
+
             return MessageLog;
         }
-
-
-        /*  public string CompleteRound(List<ICard> cards) // срабатывает при нажатии на кнопкку
-          {
-              string MessageLog = "";
-              // либо сделать через возврат логов либо через подписку
-              List<ICard> playerCards = cards;
-              Bot bot = new Bot();
-              foreach (var player in playersOfOneGame)
-              {
-                  if (typeof(Bot).IsInstanceOfType(player))
-                  {
-                      bot = (Bot)player;
-                  }
-              }
-              List<ICard> botCards = bot.PutCardFromHandOnTheTable();
-
-              // тут логика взамодействия карт
-              // 
-
-              // отрабатывает логика с заклинаниями
-              if (playerCards.Count == 2)
-                  //   ICard NewCardCreatureP = UseSpell(playerCards);
-
-                  if (botCards.Count == 2)
-                      // ICard NewCardCreatureB = UseSpell(botCards);
-
-                      // отрабатывает логика с начислением очков и отниманием здоровья
-
-
-
-                      CounterOfRounds++;
-
-              if (CounterOfRounds == 12  или кто-то умер...)
-                  throw new Exception("Игра закончена");
-
-              return null; // возвращаем большое сообщение что произошло
-          }*/
 
         public List<Player> GetListOfPlayers() => dm.AllPlayers;
         public List<ICard> GetListOfPlayersCardsInGame()
@@ -340,12 +316,12 @@ namespace Model.InternalLogic
             return 0;
         }
 
-
+        public bool IsGameOver { get; private set; }
         private DataManager dm;
         private List<IPlayer> playersOfOneGame; // 2 players Player and Bot
         private int CounterOfRounds;
         private string gameStatus = "";
-        private bool PlayerWon = false;
+        private bool PlayerWon;
 
     }
 }

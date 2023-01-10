@@ -29,10 +29,10 @@ namespace WpfApp1.Controller
                 if (typeof(Creature).IsInstanceOfType(card))
         {
                     Creature creature = (Creature)card;
-                    string cardDescription = "Creature \n";
-                    cardDescription += $"Name: {creature.Name} \n";
-                    cardDescription += $"Health: {creature.Health.ToString()} \n";
-                    cardDescription += $"Power: {creature.Power.ToString()} ";
+                    string cardDescription = "Существо\n";
+                    cardDescription += $"Имя: {creature.Name}\n";
+                    cardDescription += $"Здоровье: {creature.Health.ToString()}\n";
+                    cardDescription += $"Сила: {creature.Power.ToString()}";
                     cardsDescriptions.Add(cardDescription);
                 }
                
@@ -50,23 +50,26 @@ namespace WpfApp1.Controller
                 string cardDescription = "";
                 if (typeof(HealsPlayerSpell).IsInstanceOfType(card))
                 {
-                    cardDescription = "HealsPlayerSpell \n";
+                    cardDescription = "Улучшающее здоровье игрока заклинание:\n";
                 }
                 else
                 {
                     if (typeof(ImprovesPowerSpell).IsInstanceOfType(card))
                     {
-                        cardDescription = "ImprovesPowerSpell \n";
+                        cardDescription = "Улучшающее здоровье существа заклинание:\n";
                     }
                     else
                     {
                         if (typeof(ImprovesProtectionSpell).IsInstanceOfType(card))
-                            cardDescription = "ImprovesProtectionSpell \n";
+                            cardDescription = "Улучшающее силу заклинание:\n";
                     }
 
-                    cardDescription += $"Name: {card.Name} \n";
-                    cardDescription += $"Power: {card.Power.ToString()} ";
-                    cardsDescriptions.Add(cardDescription);
+                    if (!typeof(Creature).IsInstanceOfType(card))
+                    {
+                        cardDescription += $"Имя: {card.Name}\n";
+                        cardDescription += $"Сила: {card.Power.ToString()}";
+                        cardsDescriptions.Add(cardDescription);
+                    }
                 }
             }
             return cardsDescriptions;
@@ -74,13 +77,13 @@ namespace WpfApp1.Controller
         
 
 
-        //public string MakeAMove(List<ICard> cards) => game.CompleteRound(cards);
-       // public bool IsGameOver() => game.IsGameOver();
-       // public string GameOverMessage() => game.GameOverMessage();
+        public string MakeAMove(List<ICard> cards) => game.CompleteRound(cards);
+        public bool IsGameOver() => game.IsGameOver;
+        public string GameOverMessage() => game.FinishGameInfo();
 
 
         public int GetHealth(string type) => game.GetHealth(type);
-        public int GetGamesRating(string type) => game.GetPointsPerGame(type);
+        public int GetGamesRatingPerGame(string type) => game.GetPointsPerGame(type);
 
        // public bool IsPlayerByNickExist(string name) => game.IsPlayerExist(name);
         public List<Player> GetListOfPlayers() => game.GetListOfPlayers();

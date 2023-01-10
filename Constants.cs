@@ -16,5 +16,9 @@ namespace WpfApp1
         public const string PLAYER_DIED = "the player died";
         public const string BOT_DIED = "the bot died";
         public const string GAME_OVER = "game over";
+        public const string BOT_TYPE = "Bot";
+        public const string PLAYER_TYPE = "Player";
+        public const string CARD_NAME = "Имя"; 
+
     }
 }
