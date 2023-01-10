@@ -97,7 +97,7 @@ namespace WpfApp1.View
                 DrawHealthAndGamePoints();
                 DrawDecks();
             }
-            
+           
         }
 
         private GameWindowPresenter presenter;

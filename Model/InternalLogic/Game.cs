@@ -200,7 +200,7 @@ namespace Model.InternalLogic
                 foreach (var p in dm.AllPlayers)
                 {
                     if (p.NickName == player.NickName)
-                        p.GlobalRating += player.GetPointsPerGame();
+                        player.GlobalRating += p.GetPointsPerGame();
                 }
             }
             else
@@ -211,6 +211,8 @@ namespace Model.InternalLogic
                         player.GlobalRating -= Constants.LOSS_OF_POINTS;
                 }
             }
+
+            dm.JsonSerializePlayers();
         }
         public string FinishGameInfo()
         {

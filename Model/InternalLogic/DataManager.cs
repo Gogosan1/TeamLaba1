@@ -15,8 +15,8 @@ namespace Model.InternalLogic
         {
             AllCards = new List<ICard>();
             AllPlayers = new List<Player>();
-            AllPlayers = DeserealizationPlayers();
-            DeserializationCards();
+            AllPlayers = DeserealizePlayers();
+            DeserializeCards();
         }
        
         public List<ICard> AllCards { get; init; } 
@@ -28,43 +28,26 @@ namespace Model.InternalLogic
         public void AddPlayer(Player player)
         {
             AllPlayers.Add(player);
-            JsonSerialize();
+            JsonSerializePlayers();
         }
         
 
-        // На сколько оно тебе нужно? Можешь поменять если что а так можно поменять название и ипользовать просто для 
-        // изменения глобального рейтинга
-     /*   public void SavePlayerData(Player player)
-        {
-            foreach (Player p in AllPlayers)
-            {
-                if (p.NickName == player.NickName)
-                {
-                    isNewPlayer = false;
-                    p.GlobalRating = player.GlobalRating;
-                }
-            }
-
-            if (isNewPlayer == true)
-                AllPlayers.Add(player);
-            JsonSerialize();
-        }
-*/
-        private void JsonSerialize()
+      
+        public void JsonSerializePlayers()
         {
             string jsonString = JsonSerializer.Serialize<List<Player>>(AllPlayers);
             File.WriteAllText("Files/players.json", jsonString);
         }
 
 
-        private List<Player> DeserealizationPlayers()
+        private List<Player> DeserealizePlayers()
         {
             // если пустой файл чета придумать
             string jsonString = File.ReadAllText("Files/players.json");
             return JsonSerializer.Deserialize<List<Player>>(jsonString)!;
         }
 
-        private void DeserializationCards()
+        private void DeserializeCards()
         {
             string creaturesFile = File.ReadAllText("Files/Creatures.json");
             var creatures = JsonSerializer.Deserialize<List<Creature>>(creaturesFile)!;
