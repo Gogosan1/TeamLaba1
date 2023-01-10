@@ -41,6 +41,8 @@ namespace Model.Players_logic
         public void ReduceHealth(ICard card)
         {
             health -= card.Power;
+            if (health < 0)
+                health = 0;
         }
         public int GetHealth() => health;
 
@@ -56,16 +58,18 @@ namespace Model.Players_logic
         {
             List<ICard> cardsFromMove = new List<ICard>();
             ICard cardFromMove;
-            
+
             while (true)
             {
                 cardFromMove = (ChooseCardFromHand());
                 if (typeof(Creature).IsInstanceOfType(cardFromMove))
+                {
+                    cardsFromMove.Add(cardFromMove);
                     break;
+                }
+
             }
-            
-            CardsInHands.Remove(cardFromMove);
-            cardsFromMove.Add(cardFromMove);
+
 
             Random random = new Random();
             int value = random.Next(0, 1);
@@ -75,17 +79,19 @@ namespace Model.Players_logic
                 while (true)
                 {
                     cardFromMove = (ChooseCardFromHand());
-                    if (typeof(ImprovesPowerSpell).IsInstanceOfType(cardFromMove) || 
-                        typeof(ImprovesProtectionSpell).IsInstanceOfType(cardFromMove) || 
+                    if (typeof(ImprovesPowerSpell).IsInstanceOfType(cardFromMove) ||
+                        typeof(ImprovesProtectionSpell).IsInstanceOfType(cardFromMove) ||
                         (typeof(HealsPlayerSpell).IsInstanceOfType(cardFromMove)))
+                    {
+                        cardsFromMove.Add(cardFromMove);
                         break;
+                    }
                 }
-            CardsInHands.Remove(cardFromMove);
-            cardsFromMove.Add(cardFromMove);
+
 
             return cardsFromMove;
         }
 
-        
+
     }
 }

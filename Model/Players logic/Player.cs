@@ -54,6 +54,8 @@ namespace Model.Players_logic
         public void ReduceHealth(ICard card)
         {
             health -= card.Power;
+            if (health < 0)
+                health = 0;
         }
         public int GetHealth() => health;
 
