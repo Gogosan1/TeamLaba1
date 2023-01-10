@@ -7,16 +7,11 @@ using Modlel.Cards;
 
 namespace LabaCreatedWithTeamWork.Players_logic
 {
-    /* public interface IPlayer : ICardsInHands, IPlayerForAnalyzingMove, IPlayerForFinishGame
-     {
-         public string NickName { get; init; }
-     }
- */
-    public interface IPlayerForAnalyzingMove : IAddHealth, IPutCardFromHandOnTheTable
+    
+    public interface IPlayerForAnalyzingMove : IAddHealth
     {
         public bool IsAttack { get; set; }
         void AddPointsPerGame();
-        ICard ChooseCardFromHand(List<ICard> cards);
         public void ReduceHealth(ICard card);
     }
 
@@ -43,10 +38,7 @@ namespace LabaCreatedWithTeamWork.Players_logic
         void AddHealth(ICard card);
     }
 
-    public interface IPutCardFromHandOnTheTable
-    {
-        public List<ICard> PutCardFromHandOnTheTable();
-    }
+    
 
     /*  public interface IPlayer : IGetPointsPerGame
       {
