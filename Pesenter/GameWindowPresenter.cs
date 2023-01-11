@@ -11,7 +11,6 @@ namespace WpfApp1.Controller
 {
     public class GameWindowPresenter
     {
-
         public GameWindowPresenter(string nameOfPlayer)
         {
             game = new Game(nameOfPlayer);
@@ -76,7 +75,6 @@ namespace WpfApp1.Controller
         }
         
 
-
         public string MakeAMove(List<ICard> cards) => game.CompleteRound(cards);
         public bool IsGameOver() => game.IsGameOver;
         public string GameOverMessage() => game.FinishGameInfo();
@@ -84,7 +82,6 @@ namespace WpfApp1.Controller
 
         public int GetHealth(string type) => game.GetHealth(type);
         public int GetGamesRatingPerGame(string type) => game.GetPointsPerGame(type);
-
         public List<Player> GetListOfPlayers() => game.GetListOfPlayers();
         public List<ICard> GetListOfPlayersCardsInGame() => game.GetListOfPlayersCardsInGame();
 

@@ -7,46 +7,38 @@ using Model.Cards;
 
 namespace Model.InternalLogic
 {
-    internal class DataManager //: IGettingListOfPlayers
-    {
-        // производить десериалиацию в конструкторе
-
+    internal class DataManager 
+    {    
         public DataManager()
         {
             AllCards = new List<ICard>();
             AllPlayers = new List<Player>();
-            AllPlayers = DeserealizePlayers();
+            DeserealizePlayers();
             DeserializeCards();
         }
        
         public List<ICard> AllCards { get; init; } 
         public List<Player> AllPlayers { get; init; }
-        bool isNewPlayer = true;
-        
-        //string playersFileName = "Files/players.json";
-        //string cardsFileName = "Files/Game_cards.json";
+                
         public void AddPlayer(Player player)
         {
             AllPlayers.Add(player);
             JsonSerializePlayers();
         }
-        
-
-      
+              
         public void JsonSerializePlayers()
         {
             string jsonString = JsonSerializer.Serialize<List<Player>>(AllPlayers);
             File.WriteAllText("Files/players.json", jsonString);
         }
 
-
-        private List<Player> DeserealizePlayers()
+        private void DeserealizePlayers()
         {
-            // если пустой файл чета придумать
             string jsonString = File.ReadAllText("Files/players.json");
-            return JsonSerializer.Deserialize<List<Player>>(jsonString)!;
+            var AllPlayersArray = JsonSerializer.Deserialize<List<Player>>(jsonString)!;
+            foreach (var player in AllPlayersArray)
+                AllPlayers.Add(player);
         }
-
         private void DeserializeCards()
         {
             string creaturesFile = File.ReadAllText("Files/Creatures.json");
@@ -69,7 +61,6 @@ namespace Model.InternalLogic
             foreach (ImprovesProtectionSpell spell2 in ImprovesProtectionSpells)
                 AllCards.Add(spell2);
         }
-
     }
 
 }
