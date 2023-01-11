@@ -7,13 +7,11 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using WpfApp1;
 namespace Model.Players_logic
-    //я хочу умереть
+
 {
     public class Player : IPlayer
     {
-        [JsonInclude]
         public int GlobalRating { get; set; }
-        [JsonInclude]
         public string NickName { get; init; }
 
         [JsonIgnore]
@@ -43,7 +41,7 @@ namespace Model.Players_logic
         }
         public void AddPointsPerGame()
         {
-            pointsPerGame += Constants.POINTS_FOR_WINNING;
+            pointsPerGame += Constants.POINTS_FOR_WINNING_ROUD;
         }
         public int GetPointsPerGame() => pointsPerGame;
 
@@ -57,8 +55,6 @@ namespace Model.Players_logic
             if (health < 0)
                 health = 0;
         }
-        public int GetHealth() => health;
-
-      
+        public int GetHealth() => health;    
     }
 }

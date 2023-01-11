@@ -8,9 +8,6 @@ using WpfApp1.Controller;
 
 namespace WpfApp1.View
 {
-    /// <summary>
-    /// Логика взаимодействия для Window3.xaml
-    /// </summary>
     public partial class GameWindow : Window
     {
         public GameWindow(GameWindowPresenter pres)
@@ -34,7 +31,6 @@ namespace WpfApp1.View
             cardsDescriptions = presenter.DrawTheSpellsDeck();
             foreach (var cardsDescription in cardsDescriptions)
                 ListOfSpellsComboBox.Items.Add(cardsDescription);
-
         }
 
         private void DrawHealthAndGamePoints()
@@ -46,10 +42,8 @@ namespace WpfApp1.View
             BotsGamesRatingLabel.Content = "Очки соперника: " + presenter.GetGamesRatingPerGame("Bot");
         }
 
-
         private void MakeAMoveButton_Click(object sender, RoutedEventArgs e)
-        {
-            
+        {          
             if (ListOfCreaturesComboBox.Text == "")
                 MessageBox.Show("Выберите существо!");
             else 
@@ -61,7 +55,6 @@ namespace WpfApp1.View
                 {
                     if (CreaturesStrings[i].Contains(Constants.CARD_NAME))
                         CreatureCardName = CreaturesStrings[i].Substring(5);
-
                 }
                 foreach (var card in presenter.GetListOfPlayersCardsInGame())
                     if (card.Name == CreatureCardName)
@@ -85,7 +78,7 @@ namespace WpfApp1.View
                 }
 
                   GameLogsTextBlock.Text = presenter.MakeAMove(cardsFromOneMove);
-                // Вызывать метод игра закончена
+
                 if (presenter.IsGameOver())
                 {
                     this.Close();

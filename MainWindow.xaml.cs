@@ -5,9 +5,6 @@ using WpfApp1;
 
 namespace WpfApp2
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -30,7 +27,7 @@ namespace WpfApp2
             else
                 MessageBox.Show("Значение имени не может быть пустым.");
         }
-        private GameWindowPresenter presenter;
 
+        private GameWindowPresenter presenter;
     }
 }
