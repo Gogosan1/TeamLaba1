@@ -289,54 +289,53 @@ namespace Model.InternalLogic
 
         private void DeletePlayersCardFromTheDeck(List<ICard> cards)
         {
-            foreach (var player in playersOfOneGame)
-                if (typeof(Player).IsInstanceOfType(player))
-                    foreach (var takedCards in cards)
-                        for (int i = 0; i < player.CardsInHands.Count; i++)
-                            if (String.Equals(player.CardsInHands[i].Name, takedCards.Name))
-                            {
-                                player.CardsInHands.Remove(player.CardsInHands[i]);
-                                i--;
-                            }
+            var player = GetPlayerOfTheGame();
+            foreach (var takedCards in cards)
+                for (int i = 0; i < player.CardsInHands.Count; i++)
+                    if (String.Equals(player.CardsInHands[i].Name, takedCards.Name))
+                    {
+                        player.CardsInHands.Remove(player.CardsInHands[i]);
+                        i--;
+                    }
         }
 
         private void AddCardsToThePlayersDeck(int countOfRemovedCards)
         {
             int countOfCreatures = 0;
             int countOfAddedCards = 0;
-            foreach (var player in playersOfOneGame)
-                if (typeof(Player).IsInstanceOfType(player))
+            var player = GetPlayerOfTheGame();
+
+            foreach (var card in player.CardsInHands)
+            {
+                if (typeof(Creature).IsInstanceOfType(card))
+                    countOfCreatures++;
+            }
+
+            if (countOfCreatures == 0)
+            {
+                while (true)
                 {
-                    foreach (var card in player.CardsInHands)
+                    var newCard = ChooseTheNewCardFromAllCardsOfGame();
+                    if (typeof(Creature).IsInstanceOfType(newCard))
                     {
-                        if (typeof(Creature).IsInstanceOfType(card))
-                            countOfCreatures++;
-                    }
-
-                    if (countOfCreatures == 0)
-                    {
-                        while (true)
-                        {
-                            var newCard = ChooseTheNewCardFromAllCardsOfGame();
-                            if (typeof(Creature).IsInstanceOfType(newCard))
-                            {
-                                player.CardsInHands.Add(newCard);
-                                countOfAddedCards++;
-                                break;
-                            }
-                        }
-
-                    }
-
-                    while (countOfRemovedCards != countOfAddedCards)
-                    {
-                        var newCard1 = ChooseTheNewCardFromAllCardsOfGame();
-                        player.CardsInHands.Add(newCard1);
+                        player.CardsInHands.Add(newCard);
                         countOfAddedCards++;
+                        break;
                     }
                 }
-        }
 
+            }
+
+            while (countOfRemovedCards != countOfAddedCards)
+            {
+                var newCard1 = ChooseTheNewCardFromAllCardsOfGame();
+                player.CardsInHands.Add(newCard1);
+                countOfAddedCards++;
+
+
+            }
+
+        }
         private ICard ChooseTheNewCardFromAllCardsOfGame()
         {
             Random random = new Random();
@@ -348,13 +347,27 @@ namespace Model.InternalLogic
        
         public List<ICard> GetListOfPlayersCardsInGame()
         {
-            foreach(var player in playersOfOneGame)
-                if (typeof(Player).IsInstanceOfType(player))
-                    return player.CardsInHands;
-            return null;
+            var player = GetPlayerOfTheGame();
+            return player.CardsInHands;
         }
      
-        
+        public void ReduceGlobalRating()
+        {
+            var player = GetPlayerOfTheGame();
+            foreach (var p in dm.AllPlayers)
+                if (String.Equals(p.NickName, player.NickName))
+                    foreach (var bot in playersOfOneGame)
+                        if (typeof(Bot).IsInstanceOfType(bot))
+                            player.GlobalRating -= bot.GetPointsPerGame();
+        }
+
+        private Player GetPlayerOfTheGame()
+        {
+            foreach (var player in playersOfOneGame)
+                if (typeof(Player).IsInstanceOfType(player))
+                    return (Player)player;
+            return null;
+        }
         public int GetHealth(string type)
         {
             foreach ( var player in playersOfOneGame)

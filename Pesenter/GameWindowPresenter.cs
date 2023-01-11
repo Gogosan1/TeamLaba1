@@ -13,10 +13,11 @@ namespace WpfApp1.Controller
     {
         public GameWindowPresenter(string nameOfPlayer)
         {
+            NameOfPlayer = nameOfPlayer;
             game = new Game(nameOfPlayer);
         }
 
-        public List<string> DrawTheCreaturesDeck ()
+        public List<string> DrawTheCreaturesDeck()
         {
             List<ICard> cardsFromHand = GetListOfPlayersCardsInGame();
            
@@ -79,12 +80,16 @@ namespace WpfApp1.Controller
         public bool IsGameOver() => game.IsGameOver;
         public string GameOverMessage() => game.FinishGameInfo();
 
-
+        public void PressEndGameButton()
+        {
+            game.ReduceGlobalRating();
+        }
         public int GetHealth(string type) => game.GetHealth(type);
         public int GetGamesRatingPerGame(string type) => game.GetPointsPerGame(type);
         public List<Player> GetListOfPlayers() => game.GetListOfPlayers();
         public List<ICard> GetListOfPlayersCardsInGame() => game.GetListOfPlayersCardsInGame();
 
         private Game game;
+        public string NameOfPlayer { get; init; }
     }
 }

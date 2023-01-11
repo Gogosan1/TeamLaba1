@@ -18,7 +18,8 @@ namespace WpfApp1
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
-            var form = new GameWindow(presenter);
+           var presenter1 = new GameWindowPresenter(presenter.NameOfPlayer);
+            var form = new GameWindow(presenter1);
             form.ShowDialog();
         }
 
