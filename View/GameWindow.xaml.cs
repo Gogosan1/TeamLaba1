@@ -100,6 +100,21 @@ namespace WpfApp1.View
            
         }
 
+        private void EndGameButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            var dialogResult = MessageBox.Show("Вы уверены что хотите закончить игру?" +
+                $"\n Ваш рейтинг уменьшиться на {presenter.GetGamesRatingPerGame(Constants.BOT_TYPE)}", "", MessageBoxButton.YesNo);
+            if (dialogResult == MessageBoxResult.Yes)
+            {
+                this.Close();
+            }
+            else
+            {
+
+            } 
+        }
         private GameWindowPresenter presenter;
+
     }
 }
