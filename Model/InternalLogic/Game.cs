@@ -4,6 +4,7 @@ using Model.Players_logic;
 using Modlel.Cards;
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Reflection;
 using System.Windows.Controls;
 using WpfApp1;
@@ -128,7 +129,7 @@ namespace Model.InternalLogic
             foreach (var card in cards)
             {
                 if (typeof(Creature).IsInstanceOfType(card))
-                    describe += $"Существо:\n{DescribeCard(card)}\n";
+                    describe += $"\nСущество:\n{DescribeCard(card)}\n";
                 else if (typeof(ImprovesPowerSpell).IsInstanceOfType(card))
                     describe += $"Улучшающее силу заклинание:\n{DescribeCard(card)}\n";
                 else if (typeof(ImprovesProtectionSpell).IsInstanceOfType(card))
@@ -141,9 +142,9 @@ namespace Model.InternalLogic
         private string WhoseCardWon(IPlayerForAnalyzingMove player)
         {
             if (typeof(Player).IsInstanceOfType(player))
-                return "ваша карта";
+                return "ваша карта и вы заработали 10 очков. \n..ВЫБЕРИТЕ КАРТЫ ДЛЯ СЛЕДУЮЩЕГО ХОДА..";
             else
-                return "карта соперника";
+                return "карта соперника и он заработал 10 очков. \n..ВЫБЕРИТЕ КАРТЫ ДЛЯ СЛЕДУЮЩЕГО ХОДА..";
         }
         private string AnalyzeMove(ICard attackingCard, ICard defendingCard, IPlayerForAnalyzingMove attackingPlayer, IPlayerForAnalyzingMove defendingPlayer)
         {
@@ -152,6 +153,7 @@ namespace Model.InternalLogic
             bool DamageIsLessHealth = attackingCard.Power < (defendingCard).Health;
             bool DamageIsEqualsHealth = attackingCard.Power == (defendingCard).Health;
 
+            //!!!!запрешаю менять что-то в этом методе!!!!
             if (DamageIsMoreHealth)
             {
                 attackingCard.Power -= (defendingCard).Health;
@@ -170,7 +172,7 @@ namespace Model.InternalLogic
             {
                 defendingPlayer.AddPointsPerGame();
                 attackingPlayer.AddPointsPerGame();
-                info += "дружба";
+                info += "дружба. \n..ВЫБЕРИТЕ КАРТЫ ДЛЯ СЛЕДУЮЩЕГО ХОДА..";
             }
             return info;
         }
@@ -209,6 +211,8 @@ namespace Model.InternalLogic
                 {
                     if (p.NickName == player.NickName)
                         player.GlobalRating -= Constants.LOSS_OF_POINTS;
+                    if(player.GlobalRating < 0)
+                        player.GlobalRating = 0;
                 }
             }
 
@@ -216,12 +220,19 @@ namespace Model.InternalLogic
         }
         public string FinishGameInfo()
         {
+            string info = "ИГРА ОКОНЧЕНА: ";
+            if (CounterOfRounds == Constants.ROUNDS_MAX_COUNT)
+                info += "закончилось число раундов";
+            else if (playersOfOneGame[1].GetHealth() <= 0)
+                info += "закончилось ваше здоровье";
+            else if (playersOfOneGame[0].GetHealth() <= 0)
+                info += "закончилось здоровье соперника";
 
             if (gameStatus == Constants.GAME_OVER && PlayerWon == true)
-                return $"Вы выиграли !! Теперь ваш рейтинг повысился";
+                info += $"\nВы выиграли !! Теперь ваш рейтинг повысился на {playersOfOneGame[1].GetPointsPerGame()} очков";
             else if (gameStatus == Constants.GAME_OVER && PlayerWon == false)
-                return $"Вы проиграли :( Теперь ваш рейтинг снизился";
-            return string.Empty;
+                info += $"\nВы проиграли :( Теперь ваш рейтинг снизился на 100 очков";
+            return info;
         }
 
         // Взаимодействие с формой происходит только здесь, поэтому  методы игры выше, в целом могут быть приватными
@@ -244,31 +255,55 @@ namespace Model.InternalLogic
             }
             botCards = bot.PutCardFromHandOnTheTable();
 
+            foreach (var card in playerCards)
+                if (typeof(Creature).IsInstanceOfType(card))
+                    playerCreature = card;
+
+            foreach (var card in botCards)
+                if (typeof(Creature).IsInstanceOfType(card))
+                    botCreature = card;
+
             MessageLog += $"Ваши карты: {DescribeSelectedCards(playerCards)}";
-            MessageLog += $"Карты соперника: {DescribeSelectedCards(botCards)}";
+            MessageLog += $"\nКарты соперника: {DescribeSelectedCards(botCards)}";
 
             // отрабатывает логика с заклинаниями
             if (playerCards.Count == 2)
             {
+                ICard card = new Creature();
+                card.Power = playerCreature.Power;
+                card.Health = playerCreature.Health;
                 playerCreature = UseSpell(playerCards, player);
-                MessageLog += $"Ваша карта существа после применения заклинания:\n{DescribeCard(playerCreature)}";
+
+                if (card.Health == playerCreature.Health && card.Power == playerCreature.Power)
+                    MessageLog += "\nБыло применено заклинание, улучшающее ваше здоровье";
+                else
+                    MessageLog += $"\nВаша карта существа после применения заклинания:\n{DescribeCard(playerCreature)}";
             }
 
             if (botCards.Count == 2)
             {
+                ICard card = new Creature();
+                card.Power = botCreature.Power;
+                card.Health = botCreature.Health;
+
                 botCreature = UseSpell(botCards, bot);
-                MessageLog += $"Карта существа соперника после применения заклинания:\n{DescribeCard(botCreature)}";
+                if (card.Health == playerCreature.Health && card.Power == playerCreature.Power)
+                    MessageLog += "\nБыло применено заклинание, улучшающее здоровье соперника";
+                else
+                    MessageLog += $"\nКарта существа соперника после применения заклинания:\n{DescribeCard(botCreature)}";
             }
 
             // отрабатывает логика с начислением очков и отниманием здоровья
             if (player.IsAttack == true)
             {
                 player.IsAttack = false;
+                MessageLog += "\nВы атакуете!\n";
                 MessageLog += AnalyzeMove(playerCreature, botCreature, player, bot);
             }
             else
             {
                 player.IsAttack = true;
+                MessageLog += "\nВы защищаетесь!\n";
                 MessageLog += AnalyzeMove(botCreature, playerCreature, bot, player);
             }
 

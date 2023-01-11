@@ -1,3 +1,4 @@
+
 using Model.Cards;
 using Modlel.Cards;
 using System;
@@ -5,8 +6,8 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using WpfApp1;
-
 namespace Model.Players_logic
+    //я хочу умереть
 {
     public class Player : IPlayer
     {
@@ -51,6 +52,8 @@ namespace Model.Players_logic
         public void ReduceHealth(ICard card)
         {
             health -= card.Power;
+            if (health < 0)
+                health = 0;
         }
         public int GetHealth() => health;    
     }

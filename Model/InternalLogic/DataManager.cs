@@ -62,4 +62,5 @@ namespace Model.InternalLogic
                 AllCards.Add(spell2);
         }
     }
+
 }
