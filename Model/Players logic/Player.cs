@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using WpfApp1;
 namespace Model.Players_logic
-    //я хочу умереть
+
 {
     public class Player : IPlayer
     {

@@ -90,7 +90,5 @@ namespace Model.Players_logic
 
             return cardsFromMove;
         }
-
-
     }
 }

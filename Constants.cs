@@ -19,6 +19,5 @@ namespace WpfApp1
         public const string BOT_TYPE = "Bot";
         public const string PLAYER_TYPE = "Player";
         public const string CARD_NAME = "Имя";
-
     }
 }
