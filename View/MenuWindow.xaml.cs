@@ -3,7 +3,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
-using WpfApp1.Controller;
+using WpfApp1.presenter;
 using WpfApp1.View;
 
 namespace WpfApp1
@@ -18,8 +18,8 @@ namespace WpfApp1
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
-           var presenter1 = new GameWindowPresenter(presenter.NameOfPlayer);
-            var form = new GameWindow(presenter1);
+            presenter = new GameWindowPresenter(presenter.NameOfPlayer);
+            var form = new GameWindow(presenter);
             form.ShowDialog();
         }
 

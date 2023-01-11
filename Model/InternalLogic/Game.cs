@@ -1,4 +1,5 @@
 using LabaCreatedWithTeamWork.Players_logic;
+using LabaTeam1.Model.Cards;
 using Model.Cards;
 using Model.Players_logic;
 using Modlel.Cards;
@@ -186,6 +187,7 @@ namespace Model.InternalLogic
             }
 
             dm.JsonSerializePlayers();
+            dm.DeserealizePlayers();
         }
         public string FinishGameInfo()
         {
@@ -358,7 +360,10 @@ namespace Model.InternalLogic
                 if (String.Equals(p.NickName, player.NickName))
                     foreach (var bot in playersOfOneGame)
                         if (typeof(Bot).IsInstanceOfType(bot))
-                            player.GlobalRating -= bot.GetPointsPerGame();
+                            p.GlobalRating -= bot.GetPointsPerGame();
+
+            dm.JsonSerializePlayers();
+            dm.DeserealizePlayers();
         }
 
         private Player GetPlayerOfTheGame()
@@ -394,7 +399,7 @@ namespace Model.InternalLogic
         public bool IsGameOver { get; private set; }
         private DataManager dm;
         private List<IPlayer> playersOfOneGame;
-        private int CounterOfRounds;
+        public int CounterOfRounds { get; private set; }
         private string gameStatus = "";
         private bool PlayerWon;
     }

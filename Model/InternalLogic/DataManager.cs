@@ -4,6 +4,7 @@ using Model.Players_logic;
 using Modlel.Cards;
 using System.IO;
 using Model.Cards;
+using LabaTeam1.Model.Cards;
 
 namespace Model.InternalLogic
 {
@@ -32,8 +33,9 @@ namespace Model.InternalLogic
             File.WriteAllText("Files/players.json", jsonString);
         }
 
-        private void DeserealizePlayers()
+        public void DeserealizePlayers()
         {
+            AllPlayers.Clear();
             string jsonString = File.ReadAllText("Files/players.json");
             var AllPlayersArray = JsonSerializer.Deserialize<List<Player>>(jsonString)!;
             foreach (var player in AllPlayersArray)
@@ -41,6 +43,7 @@ namespace Model.InternalLogic
         }
         private void DeserializeCards()
         {
+            AllCards.Clear();
             string creaturesFile = File.ReadAllText("Files/Creatures.json");
             var creatures = JsonSerializer.Deserialize<List<Creature>>(creaturesFile)!;
             foreach(Creature creature in creatures)

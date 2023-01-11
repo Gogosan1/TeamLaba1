@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using WpfApp1.Controller;
+using WpfApp1.presenter;
 
 namespace WpfApp1.View
 {
@@ -89,6 +89,7 @@ namespace WpfApp1.View
                 ListOfSpellsComboBox.SelectedIndex = -1;
                 DrawHealthAndGamePoints();
                 DrawDecks();
+                RoundLabel.Content = "Раунд: " + presenter.GetCounterOfRounds().ToString();
             }
            
         }

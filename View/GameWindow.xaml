@@ -55,6 +55,7 @@
         <ComboBox x:Name="ListOfCreaturesComboBox" HorizontalAlignment="Left" Margin="29,109,0,0" VerticalAlignment="Top" Width="311"/>
         <ComboBox x:Name="ListOfSpellsComboBox" HorizontalAlignment="Left" Margin="347,109,0,0" VerticalAlignment="Top" Width="311"/>
         <Label Content="Выберите карту заклинания по желанию" HorizontalAlignment="Left" Margin="341,74,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="RoundLabel" Content="Раунд: 1" HorizontalAlignment="Left" Margin="55,24,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

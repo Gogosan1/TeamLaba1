@@ -1,13 +1,11 @@
+using LabaTeam1.Model.Cards;
 using Model.Cards;
 using Model.InternalLogic;
 using Model.Players_logic;
 using Modlel.Cards;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Windows.Controls;
 
-namespace WpfApp1.Controller
+namespace WpfApp1.presenter
 {
     public class GameWindowPresenter
     {
@@ -88,7 +86,8 @@ namespace WpfApp1.Controller
         public int GetGamesRatingPerGame(string type) => game.GetPointsPerGame(type);
         public List<Player> GetListOfPlayers() => game.GetListOfPlayers();
         public List<ICard> GetListOfPlayersCardsInGame() => game.GetListOfPlayersCardsInGame();
-
+        public int GetCounterOfRounds() => game.CounterOfRounds;
+            
         private Game game;
         public string NameOfPlayer { get; init; }
     }
