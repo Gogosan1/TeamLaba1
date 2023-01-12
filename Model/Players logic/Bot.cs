@@ -13,7 +13,6 @@ namespace Model.Players_logic
     {
         public List<ICard> CardsInHands { get; set; }
         public bool IsAttack { get; set; }
-        public int GlobalRating { get; set; }
 
         private int health;
         private int pointsPerGame;

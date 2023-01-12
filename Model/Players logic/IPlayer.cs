@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Model.Players_logic
 {
-    public interface IPlayer : ICardsInHands, IPlayerForAnalyzingMove, IPlayerForFinishGame, IGetPointsPerGame
+    public interface IPlayer : ICardsInHands, IPlayerForAnalyzingMove, IGetPointsPerGame
     {
         public List<ICard> CardsInHands { get; set; }
         public void TakeTheCardInHands(ICard card)

@@ -5,7 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:view="clr-namespace:WpfApp1.View"
         mc:Ignorable="d"
-        Title="RatingWindow" Height="450" Width="800">
+        Title="RatingWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="Black"/>
+            <GradientStop Color="#FF10301F" Offset="1"/>
+            <GradientStop Color="#FF577364" Offset="0.007"/>
+            <GradientStop Color="#FF274D38" Offset="0.545"/>
+            <GradientStop Color="#FF335342" Offset="0.347"/>
+        </LinearGradientBrush>
+    </Window.Background>
     <Grid>
         <DataGrid x:Name="PlayersDataGrid" IsReadOnly="True" ColumnWidth="*" VerticalAlignment="Top"
                           CanUserResizeColumns="False" CanUserAddRows="False" CanUserDeleteRows="False"
