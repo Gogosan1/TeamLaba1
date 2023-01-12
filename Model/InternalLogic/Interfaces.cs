@@ -44,7 +44,7 @@ namespace LabaCreatedWithTeamWork.Players_logic
     }
     public interface IPlayerForFinishingGame : IGetPointsPerGame
     {
-        int GlobalRating { get; set; }
+       // int GlobalRating { get; set; }
         public string NickName { get; init; }
     }
     public interface IGetPointsPerGame
